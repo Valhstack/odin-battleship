@@ -1,4 +1,4 @@
-# template
+# Battleship
 The repository to hold template that includes webpack configurations
 
 Once a new repository is created based on this template, run the following commands locally:
