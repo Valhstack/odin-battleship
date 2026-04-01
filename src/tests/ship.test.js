@@ -17,8 +17,10 @@ describe('testing functionality around Ship objects', () => {
 
         expect(smallShip.hits()).toBe(1);
         expect(smallShip.hit()).toBe();
-        expect(smallShip.hit()).toBe();
-        expect(smallShip.hit()).toBe('The ship has sunk. No more hits available');
+        expect(smallShip.hit()).toBe('The ship has sunk');
+        expect(smallShip.isSunk()).toBe(true);
+
+        expect(smallShip.hit()).toBe('The ship has already sunk');
         expect(smallShip.hits()).toBe(3);
         expect(smallShip.isSunk()).toBe(true);
     });
