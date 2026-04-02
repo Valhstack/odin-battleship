@@ -78,6 +78,33 @@ class Board {
         return true;
     }
 
+    receiveAttack(x, y) {
+        if (this.#board[x][y] === '1') {
+            this.#board[x][y] = 'x';
+
+            for (let ship of this.#ships) {
+                if ((ship.position.rowStart === x && ship.position.colStart === y) || (
+                    ship.position.rowFinish === x && ship.position.colFinish === y)) {
+                    ship.hit();
+                }
+                else if ((ship.position.rowStart === x - 1 && ship.position.colStart === y) ||
+                    (ship.position.rowFinish === x + 1 && ship.position.colStart === y)) {
+                    ship.hit();
+                }
+                else if ((ship.position.rowStart === x && ship.position.colStart === y - 1) ||
+                    (ship.position.rowStart === x && ship.position.colFinish === y + 1)) {
+                    ship.hit();
+                }
+            }
+        }
+        else if (this.#board[x][y] === '0') {
+            this.#board[x][y] = 'o'
+        }
+        else {
+            throw new Error(`Illegal move - can't place a hit there`);
+        }
+    }
+
     printBoard() {
         let result = '';
 
