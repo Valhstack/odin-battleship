@@ -1,4 +1,4 @@
-export class Ship {
+class Ship {
     #length; #isSunk = false; #hits = 0;
 
     constructor(length) {
@@ -34,3 +34,14 @@ export class Ship {
         return this.#isSunk;
     }
 }
+
+const shipCoords = (x1, y1, x2, y2) => {
+    return {
+        rowStart: x1,
+        colStart: y1,
+        rowFinish: x2,
+        colFinish: y2
+    };
+};
+
+export { Ship, shipCoords }
