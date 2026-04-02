@@ -4,9 +4,13 @@ class Ship {
     constructor(position) {
         this.position = position;
 
-        if ((position.rowFinish - position.rowStart) === (position.colFinish - position.colStart)) this.#length = 1;
-        else if (position.rowFinish - position.rowStart === 0) this.#length = position.colFinish - position.colStart + 1;
-        else this.#length = position.rowFinish - position.rowStart + 1;
+        if (position.rowStart === position.rowFinish && position.colStart === position.colFinish) {
+            this.#length = 1;
+        } else if (position.rowStart === position.rowFinish) {
+            this.#length = position.colFinish - position.colStart + 1;
+        } else {
+            this.#length = position.rowFinish - position.rowStart + 1;
+        }
     }
 
     hit() {
