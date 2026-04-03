@@ -86,14 +86,20 @@ class Board {
                 if ((ship.position.rowStart === x && ship.position.colStart === y) || (
                     ship.position.rowFinish === x && ship.position.colFinish === y)) {
                     ship.hit();
+
+                    if (ship.isSunk()) this.#numOfShips--;
                 }
                 else if ((ship.position.rowStart === x - 1 && ship.position.colStart === y) ||
                     (ship.position.rowFinish === x + 1 && ship.position.colStart === y)) {
                     ship.hit();
+
+                    if (ship.isSunk()) this.#numOfShips--;
                 }
                 else if ((ship.position.rowStart === x && ship.position.colStart === y - 1) ||
                     (ship.position.rowStart === x && ship.position.colFinish === y + 1)) {
                     ship.hit();
+
+                    if (ship.isSunk()) this.#numOfShips--;
                 }
             }
         }
@@ -103,6 +109,13 @@ class Board {
         else {
             throw new Error(`Illegal move - can't place a hit there`);
         }
+    }
+
+    // returns TRUE if there are any ships left, FALSE if all are sunk
+    areShipsLeft() {
+        if (this.#numOfShips !== 0) return true;
+
+        return false;
     }
 
     printBoard() {

@@ -125,4 +125,60 @@ describe('testing the game board', () => {
 
         expect(() => board.receiveAttack(2, 3)).toThrow(`Illegal move - can't place a hit there`);
     });
+
+    test('areShipsLeft returns TRUE if there are ships left on the board, and FALSE if all ships are sunk', () => {
+        const ships = [];
+        ships.push(shipCoords(7, 0, 7, 1)); // length: 2; A8 - B8
+        ships.push(shipCoords(0, 1, 3, 1)); // length: 4; B1 - B4
+        ships.push(shipCoords(9, 2, 9, 2)); // length: 1; C10
+        ships.push(shipCoords(0, 3, 0, 5)); // length: 3; D1 - F1
+        ships.push(shipCoords(4, 3, 4, 3)); // length: 1; D5
+        ships.push(shipCoords(8, 5, 8, 6)); // length: 2; F9 - G9
+        ships.push(shipCoords(4, 6, 6, 6)); // length: 3; G5 - G7
+        ships.push(shipCoords(1, 7, 1, 7)); // length: 1; H7
+        ships.push(shipCoords(0, 9, 1, 9)); // length: 2; J1 - J2
+        ships.push(shipCoords(5, 9, 5, 9)); // length: 1; J6
+
+        const board = new Board(ships);
+
+        board.receiveAttack(0, 1);
+        board.receiveAttack(1, 1);
+        board.receiveAttack(2, 1);
+        board.receiveAttack(3, 1);
+        expect(board.areShipsLeft()).toBe(true);
+
+        board.receiveAttack(0, 3);
+        board.receiveAttack(0, 4);
+        board.receiveAttack(0, 5);
+        expect(board.areShipsLeft()).toBe(true);
+
+        board.receiveAttack(4, 6);
+        board.receiveAttack(5, 6);
+        board.receiveAttack(6, 6);
+        expect(board.areShipsLeft()).toBe(true);
+
+        board.receiveAttack(0, 9);
+        board.receiveAttack(1, 9);
+        expect(board.areShipsLeft()).toBe(true);
+
+        board.receiveAttack(7, 0);
+        board.receiveAttack(7, 1);
+        expect(board.areShipsLeft()).toBe(true);
+
+        board.receiveAttack(8, 5);
+        board.receiveAttack(8, 6);
+        expect(board.areShipsLeft()).toBe(true);
+
+        board.receiveAttack(1, 7);
+        expect(board.areShipsLeft()).toBe(true);
+
+        board.receiveAttack(4, 3);
+        expect(board.areShipsLeft()).toBe(true);
+
+        board.receiveAttack(9, 2);
+        expect(board.areShipsLeft()).toBe(true);
+
+        board.receiveAttack(5, 9);
+        expect(board.areShipsLeft()).toBe(false);
+    });
 });
