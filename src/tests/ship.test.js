@@ -14,11 +14,11 @@ describe('testing functionality around Ship objects', () => {
         smallShip.hit();
 
         expect(smallShip.hits()).toBe(1);
-        expect(smallShip.hit()).toBe();
-        expect(smallShip.hit()).toBe('The ship has sunk');
+        smallShip.hit();
+        smallShip.hit();
         expect(smallShip.isSunk()).toBe(true);
 
-        expect(smallShip.hit()).toBe('The ship has already sunk');
+        expect(() => smallShip.hit()).toThrow('The ship has already sunk');
         expect(smallShip.hits()).toBe(3);
         expect(smallShip.isSunk()).toBe(true);
     });

@@ -15,14 +15,13 @@ class Ship {
 
     hit() {
         if (this.#isSunk) {
-            return 'The ship has already sunk';
+            throw new Error ('The ship has already sunk');
         }
 
         this.#hits++;
 
         if (this.#hits >= this.#length) {
             this.#isSunk = true;
-            return 'The ship has sunk';
         }
     }
 
