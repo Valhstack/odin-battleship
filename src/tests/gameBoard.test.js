@@ -18,19 +18,18 @@ describe('testing the game board', () => {
     });
 
     test('if array of coordinates is passed, the board is populated by the ships', () => {
-        const ships = [];
-        ships.push(shipCoords(7, 0, 7, 1)); // length: 2; A8 - B8
-        ships.push(shipCoords(0, 1, 3, 1)); // length: 4; B1 - B4
-        ships.push(shipCoords(9, 2, 9, 2)); // length: 1; C10
-        ships.push(shipCoords(0, 3, 0, 5)); // length: 3; D1 - F1
-        ships.push(shipCoords(4, 3, 4, 3)); // length: 1; D5
-        ships.push(shipCoords(8, 5, 8, 6)); // length: 2; F9 - G9
-        ships.push(shipCoords(4, 6, 6, 6)); // length: 3; G5 - G7
-        ships.push(shipCoords(1, 7, 1, 7)); // length: 1; H7
-        ships.push(shipCoords(0, 9, 1, 9)); // length: 2; J1 - J2
-        ships.push(shipCoords(5, 9, 5, 9)); // length: 1; J6
+        const board = new Board();
 
-        const board = new Board(ships);
+        board.placeShip(shipCoords(7, 0, 7, 1)); // length: 2; A8 - B8
+        board.placeShip(shipCoords(0, 1, 3, 1)); // length: 4; B1 - B4
+        board.placeShip(shipCoords(9, 2, 9, 2)); // length: 1; C10
+        board.placeShip(shipCoords(0, 3, 0, 5)); // length: 3; D1 - F1
+        board.placeShip(shipCoords(4, 3, 4, 3)); // length: 1; D5
+        board.placeShip(shipCoords(8, 5, 8, 6)); // length: 2; F9 - G9
+        board.placeShip(shipCoords(4, 6, 6, 6)); // length: 3; G5 - G7
+        board.placeShip(shipCoords(1, 7, 1, 7)); // length: 1; H7
+        board.placeShip(shipCoords(0, 9, 1, 9)); // length: 2; J1 - J2
+        board.placeShip(shipCoords(5, 9, 5, 9)); // length: 1; J6
 
         expect(board.printBoard()).toBe(
             '0101110001\n0100000101\n0100000000\n0100000000\n0001001000\n0000001001\n0000001000\n1100000000\n0000011000\n0010000000'
@@ -65,19 +64,18 @@ describe('testing the game board', () => {
     });
 
     test(`placeShip doesn't allow to place more than 10 ships`, () => {
-        const ships = [];
-        ships.push(shipCoords(7, 0, 7, 1)); // length: 2; A8 - B8
-        ships.push(shipCoords(0, 1, 3, 1)); // length: 4; B1 - B4
-        ships.push(shipCoords(9, 2, 9, 2)); // length: 1; C10
-        ships.push(shipCoords(0, 3, 0, 5)); // length: 3; D1 - F1
-        ships.push(shipCoords(4, 3, 4, 3)); // length: 1; D5
-        ships.push(shipCoords(8, 5, 8, 6)); // length: 2; F9 - G9
-        ships.push(shipCoords(4, 6, 6, 6)); // length: 3; G5 - G7
-        ships.push(shipCoords(1, 7, 1, 7)); // length: 1; H7
-        ships.push(shipCoords(0, 9, 1, 9)); // length: 2; J1 - J2
-        ships.push(shipCoords(5, 9, 5, 9)); // length: 1; J6
+        const board = new Board();
 
-        const board = new Board(ships);
+        board.placeShip(shipCoords(7, 0, 7, 1)); // length: 2; A8 - B8
+        board.placeShip(shipCoords(0, 1, 3, 1)); // length: 4; B1 - B4
+        board.placeShip(shipCoords(9, 2, 9, 2)); // length: 1; C10
+        board.placeShip(shipCoords(0, 3, 0, 5)); // length: 3; D1 - F1
+        board.placeShip(shipCoords(4, 3, 4, 3)); // length: 1; D5
+        board.placeShip(shipCoords(8, 5, 8, 6)); // length: 2; F9 - G9
+        board.placeShip(shipCoords(4, 6, 6, 6)); // length: 3; G5 - G7
+        board.placeShip(shipCoords(1, 7, 1, 7)); // length: 1; H7
+        board.placeShip(shipCoords(0, 9, 1, 9)); // length: 2; J1 - J2
+        board.placeShip(shipCoords(5, 9, 5, 9)); // length: 1; J6
 
         expect(() => board.placeShip(shipCoords(7, 3, 7, 3))).toThrow(`Can't place more than 10 ships`);
     });
@@ -94,19 +92,17 @@ describe('testing the game board', () => {
     });
 
     test('receiveAttack marks attack on the board and hits the appropriate ship; if the attack goes outside the board or on the space that already been hit/missed, an error is returned', () => {
-        const ships = [];
-        ships.push(shipCoords(7, 0, 7, 1)); // length: 2; A8 - B8
-        ships.push(shipCoords(0, 1, 3, 1)); // length: 4; B1 - B4
-        ships.push(shipCoords(9, 2, 9, 2)); // length: 1; C10
-        ships.push(shipCoords(0, 3, 0, 5)); // length: 3; D1 - F1
-        ships.push(shipCoords(4, 3, 4, 3)); // length: 1; D5
-        ships.push(shipCoords(8, 5, 8, 6)); // length: 2; F9 - G9
-        ships.push(shipCoords(4, 6, 6, 6)); // length: 3; G5 - G7
-        ships.push(shipCoords(1, 7, 1, 7)); // length: 1; H7
-        ships.push(shipCoords(0, 9, 1, 9)); // length: 2; J1 - J2
-        ships.push(shipCoords(5, 9, 5, 9)); // length: 1; J6
-
-        const board = new Board(ships);
+        const board = new Board();
+        board.placeShip(shipCoords(7, 0, 7, 1)); // length: 2; A8 - B8
+        board.placeShip(shipCoords(0, 1, 3, 1)); // length: 4; B1 - B4
+        board.placeShip(shipCoords(9, 2, 9, 2)); // length: 1; C10
+        board.placeShip(shipCoords(0, 3, 0, 5)); // length: 3; D1 - F1
+        board.placeShip(shipCoords(4, 3, 4, 3)); // length: 1; D5
+        board.placeShip(shipCoords(8, 5, 8, 6)); // length: 2; F9 - G9
+        board.placeShip(shipCoords(4, 6, 6, 6)); // length: 3; G5 - G7
+        board.placeShip(shipCoords(1, 7, 1, 7)); // length: 1; H7
+        board.placeShip(shipCoords(0, 9, 1, 9)); // length: 2; J1 - J2
+        board.placeShip(shipCoords(5, 9, 5, 9)); // length: 1; J6
 
         board.receiveAttack(2, 3);
         expect(board.printBoard()).toBe(
@@ -127,19 +123,18 @@ describe('testing the game board', () => {
     });
 
     test('areShipsLeft returns TRUE if there are ships left on the board, and FALSE if all ships are sunk', () => {
-        const ships = [];
-        ships.push(shipCoords(7, 0, 7, 1)); // length: 2; A8 - B8
-        ships.push(shipCoords(0, 1, 3, 1)); // length: 4; B1 - B4
-        ships.push(shipCoords(9, 2, 9, 2)); // length: 1; C10
-        ships.push(shipCoords(0, 3, 0, 5)); // length: 3; D1 - F1
-        ships.push(shipCoords(4, 3, 4, 3)); // length: 1; D5
-        ships.push(shipCoords(8, 5, 8, 6)); // length: 2; F9 - G9
-        ships.push(shipCoords(4, 6, 6, 6)); // length: 3; G5 - G7
-        ships.push(shipCoords(1, 7, 1, 7)); // length: 1; H7
-        ships.push(shipCoords(0, 9, 1, 9)); // length: 2; J1 - J2
-        ships.push(shipCoords(5, 9, 5, 9)); // length: 1; J6
+        const board = new Board();
 
-        const board = new Board(ships);
+        board.placeShip(shipCoords(7, 0, 7, 1)); // length: 2; A8 - B8
+        board.placeShip(shipCoords(0, 1, 3, 1)); // length: 4; B1 - B4
+        board.placeShip(shipCoords(9, 2, 9, 2)); // length: 1; C10
+        board.placeShip(shipCoords(0, 3, 0, 5)); // length: 3; D1 - F1
+        board.placeShip(shipCoords(4, 3, 4, 3)); // length: 1; D5
+        board.placeShip(shipCoords(8, 5, 8, 6)); // length: 2; F9 - G9
+        board.placeShip(shipCoords(4, 6, 6, 6)); // length: 3; G5 - G7
+        board.placeShip(shipCoords(1, 7, 1, 7)); // length: 1; H7
+        board.placeShip(shipCoords(0, 9, 1, 9)); // length: 2; J1 - J2
+        board.placeShip(shipCoords(5, 9, 5, 9)); // length: 1; J6
 
         board.receiveAttack(0, 1);
         board.receiveAttack(1, 1);

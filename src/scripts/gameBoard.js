@@ -24,16 +24,8 @@ class Board {
         );
     }
 
-    constructor(array) {
+    constructor() {
         this.#initialiseEmptyBoard();
-
-        if (!array || array.length !== 10) {
-            return;
-        }
-
-        for (let item of array) {
-            this.placeShip(item);
-        }
     }
 
     placeShip(position) {
