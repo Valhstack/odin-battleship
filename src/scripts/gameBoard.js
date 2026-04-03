@@ -122,6 +122,14 @@ class Board {
 
         return result;
     }
+
+    resetBoard() {
+        this.#initialiseEmptyBoard();
+    }
+
+    getBoard() {
+        return this.#board;
+    }
 }
 
 export { Board }
