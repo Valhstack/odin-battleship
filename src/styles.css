@@ -46,7 +46,7 @@ body {
 
 .battle-select {
     display: flex;
-    gap: 80px;
+    gap: 64px;
 }
 
 .card {
@@ -67,10 +67,24 @@ body {
     gap: 8px;
 }
 
-.card:hover {
+.card:has(.bottom-card.inactive):hover {
     border: 1px solid #3FA7C4;
     box-shadow: 0 0 12px rgba(63, 167, 196, 0.25);
     scale: 1.03;
+}
+
+.card:has(.bottom-card.inactive) {
+    scale: 1;
+}
+
+.card:has(.bottom-card) {
+    scale: 1.05;
+}
+
+.card:has(.bottom-card:not(.inactive)) {
+    height: 240px;
+    border: 1px solid #3FA7C4;
+    box-shadow: 0 0 16px rgba(63, 167, 196, 0.2);
 }
 
 .select-title {
@@ -82,6 +96,62 @@ body {
 .select-subtitle {
     font-size: 14px;
     color: #9BB7C4;
+}
+
+input[type='text'] {
+    height: 40px;
+    width: 100%;
+
+    background: #0F2A38;
+    border: 1px solid #1F4E63;
+    border-radius: 8px;
+    color: #E6F2F7;
+
+    font-size: 14px;
+    font-weight: 400;
+    padding: 0 12px;
+
+    margin-top: 6px;
+}
+
+input[type='text']::placeholder {
+    color: #A8C0CC;
+}
+
+input[type='text']:focus {
+    outline: none;
+    border-color: #3FA7C4;
+    box-shadow: 0 0 8px rgba(63, 167, 196, 0.25);
+}
+
+input[type='text']:hover {
+    outline: none;
+    border-color: #2A6F89;
+}
+
+.input-subtext {
+    font-size: 12px;
+    color: #9BB7C4;
+}
+
+.start-game-btn {
+    height: 40px;
+    width: 100%;
+
+    border-radius: 8px;
+    background-color: #174B5F;
+    border: 1px solid #1F4E63;
+    color: #E6F2F7;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    margin: 16px 0 12px 0;
+}
+
+.start-game-btn:hover {
+    background-color: #174B5F;
+    border-color: #3FA7C4;
 }
 
 .inactive {
