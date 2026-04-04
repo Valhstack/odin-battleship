@@ -1,5 +1,6 @@
 import { generatePlayerName } from "./helpers.js";
 import { Player } from "./player.js";
+import { renderBoards } from "./render.js";
 
 const cards = document.getElementsByClassName('card');
 const startGameBtns = document.getElementsByClassName('start-game-btn');
@@ -39,6 +40,8 @@ const listeners = () => {
                 playerName = input === '' ? input.value : generatePlayerName();
                 const userPlayer = new Player(playerName);
                 const compPlayer = new Player(generatePlayerName());
+
+                renderBoards();
             }
             else if (elemID === 'start-game-online-btn') {
                 const input = document.getElementById('player-name-online');

@@ -9,7 +9,8 @@
 
 p,
 h1,
-h3 body {
+h3,
+body {
     margin: 0;
 }
 
@@ -152,6 +153,67 @@ input[type='text']:hover {
 .start-game-btn:hover {
     background-color: #174B5F;
     border-color: #3FA7C4;
+}
+
+.boards-screen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 80px;
+}
+
+.board-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(11, 48px);
+    grid-template-rows: repeat(11, 48px);
+}
+
+.board-cell {
+    border-right: 1px solid #2a6f89b3;
+    border-bottom: 1px solid #2a6f89b3;
+}
+
+.board-cell[data-col='0'] {
+    border-left: 1px solid #1F4E63;
+}
+
+.board-cell[data-col='9'] {
+    border-right: 1px solid #1F4E63;
+}
+
+.board-cell[data-row='9'] {
+    border-bottom: 1px solid #1F4E63;
+}
+
+.board-cell[data-row='0'] {
+    border-top: 1px solid #1F4E63;
+}
+
+.board-cell.no-border {
+    border: none;
+    align-self: center;
+}
+
+.board-label {
+    color: #7FA9B8;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.board-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #E6F2F7;
 }
 
 .inactive {
