@@ -1,9 +1,15 @@
 import { generatePlayerName } from "./helpers.js";
 import { Player } from "./player.js";
-import { renderBoards } from "./render.js";
+import { game } from "./game.js";
 
 const cards = document.getElementsByClassName('card');
 const startGameBtns = document.getElementsByClassName('start-game-btn');
+
+const attachListeners = (items, handler) => {
+    for (let item of items) {
+        item.addEventListener("click", handler);
+    }
+};
 
 const listeners = () => {
     for (let card of cards) {
@@ -38,10 +44,8 @@ const listeners = () => {
             if (elemID === 'start-game-comp-btn') {
                 const input = document.getElementById('player-name-comp');
                 playerName = input === '' ? input.value : generatePlayerName();
-                const userPlayer = new Player(playerName);
-                const compPlayer = new Player(generatePlayerName());
 
-                renderBoards();
+                game.start(playerName, generatePlayerName());
             }
             else if (elemID === 'start-game-online-btn') {
                 const input = document.getElementById('player-name-online');
@@ -52,4 +56,4 @@ const listeners = () => {
     }
 }
 
-export { listeners }
+export { listeners, attachListeners }

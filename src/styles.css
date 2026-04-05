@@ -181,6 +181,10 @@ input[type='text']:hover {
 .board-cell {
     border-right: 1px solid #2a6f89b3;
     border-bottom: 1px solid #2a6f89b3;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .board-cell[data-col='0'] {
@@ -214,6 +218,12 @@ input[type='text']:hover {
     font-size: 18px;
     font-weight: 600;
     color: #E6F2F7;
+}
+
+.ship-piece{
+    width: 80%;
+    height: 80%;
+    background-color: orange;
 }
 
 .inactive {

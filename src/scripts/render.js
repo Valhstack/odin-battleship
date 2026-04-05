@@ -1,3 +1,5 @@
+import { attachListeners } from "./listeners.js";
+
 const render = (function () {
     const renderBoards = () => {
         document.getElementById('start-screen').classList.add('inactive');
@@ -8,6 +10,23 @@ const render = (function () {
 
         generateBoard(playerBoard);
         generateBoard(enemyBoard);
+    };
+
+    const renderShips = (playerBoard) => {
+        const board = document.getElementById('player-board');
+
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                if (playerBoard[i][j] === '1') {
+                    const node = board.querySelector(`[data-row='${i}'][data-col='${j}']`);
+                    console.log(node);
+
+                    const div = document.createElement('div');
+                    div.classList.add('ship-piece');
+                    node.appendChild(div);
+                }
+            }
+        }
     };
 
     const generateBoard = (element) => {
@@ -34,6 +53,9 @@ const render = (function () {
                     charIndx++;
 
                     div.appendChild(pChar);
+                    element.appendChild(div);
+
+                    continue;
                 }
                 else if (j === -1) {
                     div.classList.add('no-border');
@@ -43,16 +65,21 @@ const render = (function () {
                     indx++;
 
                     div.appendChild(pNum);
+                    element.appendChild(div);
+
+                    continue;
                 }
 
+                //attachListeners(div, handler); // handler is not defined yet
                 element.appendChild(div);
             }
         }
-    }
+    };
 
-    return { renderBoards };
+    return { renderBoards, renderShips };
 })();
 
 const renderBoards = () => render.renderBoards();
+const renderShips = (playerBoard) => render.renderShips(playerBoard);
 
-export { renderBoards };
+export { renderBoards, renderShips };
