@@ -130,6 +130,10 @@ class Board {
     getBoard() {
         return this.#board;
     }
+
+    getShips() {
+        return this.#ships;
+    }
 }
 
 export { Board }

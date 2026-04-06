@@ -37,7 +37,7 @@ const game = (function () {
         boardComp.placeShip(shipCoords(0, 9, 1, 9)); // length: 2; J1 - J2
         boardComp.placeShip(shipCoords(5, 9, 5, 9)); // length: 1; J6
 
-        renderShips(boardPlayer.getBoard());
+        renderShips(boardPlayer);
     };
 
     const move = (row, col) => {

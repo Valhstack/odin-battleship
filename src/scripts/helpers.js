@@ -6,4 +6,25 @@ const generatePlayerName = () => {
     return `${adj}${base}`;
 }
 
-export { generatePlayerName }
+const getShipEndpoint = (ships, i, j) => {
+    for (const ship of ships) {
+        const p = ship.position;
+
+        const isStart = i === p.rowStart && j === p.colStart;
+        const isFinish = i === p.rowFinish && j === p.colFinish;
+
+        if (isStart || isFinish) {
+            const orientation =
+                p.rowStart === p.rowFinish ? "horizontal" : "vertical";
+
+            return {
+                type: isStart ? "start" : "finish",
+                orientation
+            };
+        }
+    }
+
+    return null;
+}
+
+export { generatePlayerName, getShipEndpoint }

@@ -1,4 +1,4 @@
-import { attachListeners, cellHandler } from "./listeners.js";
+import { getShipEndpoint } from "./helpers.js";
 
 const render = (function () {
     const renderBoards = () => {
@@ -15,14 +15,23 @@ const render = (function () {
     const renderShips = (playerBoard) => {
         const board = document.getElementById('player-board');
 
+        const boardValues = playerBoard.getBoard();
+        const ships = playerBoard.getShips();
+        console.log(ships);
+
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
-                if (playerBoard[i][j] === '1') {
+                if (boardValues[i][j] === '1') {
                     const node = board.querySelector(`[data-row='${i}'][data-col='${j}']`);
-                    console.log(node);
 
                     const div = document.createElement('div');
                     div.classList.add('ship-piece');
+
+                    const shipEndpoint = getShipEndpoint(ships, i, j);
+                    if (shipEndpoint !== null) {
+                        div.classList.add(`ship-piece-${shipEndpoint.type}-${shipEndpoint.orientation}`);
+                    }
+
                     node.appendChild(div);
                 }
             }
