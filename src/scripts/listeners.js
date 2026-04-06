@@ -11,6 +11,13 @@ const attachListeners = (items, handler) => {
     }
 };
 
+function cellHandler(e) {
+    const row = e.target.dataset.row;
+    const col = e.target.dataset.col;
+
+    game.move(row, col);
+}
+
 const listeners = () => {
     for (let card of cards) {
         card.addEventListener('click', (e) => {
@@ -56,4 +63,4 @@ const listeners = () => {
     }
 }
 
-export { listeners, attachListeners }
+export { listeners, attachListeners, cellHandler }

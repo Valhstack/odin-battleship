@@ -1,4 +1,4 @@
-import { attachListeners } from "./listeners.js";
+import { attachListeners, cellHandler } from "./listeners.js";
 
 const render = (function () {
     const renderBoards = () => {
@@ -26,6 +26,27 @@ const render = (function () {
                     node.appendChild(div);
                 }
             }
+        }
+    };
+
+    const renderPlayerMove = (cellValue, row, col) => {
+        const board = document.getElementById('enemy-board');
+
+        if (cellValue === 'x') {
+            const node = board.querySelector(`[data-row='${row}'][data-col='${col}']`);
+
+            const p = document.createElement('p');
+            p.classList.add('move-hit');
+            p.textContent = 'X';
+            node.appendChild(p);
+        }
+        else if (cellValue === 'o') {
+            const node = board.querySelector(`[data-row='${row}'][data-col='${col}']`);
+
+            const p = document.createElement('p');
+            p.classList.add('move-miss');
+            p.textContent = '•';
+            node.appendChild(p);
         }
     };
 
@@ -70,16 +91,16 @@ const render = (function () {
                     continue;
                 }
 
-                //attachListeners(div, handler); // handler is not defined yet
                 element.appendChild(div);
             }
         }
     };
 
-    return { renderBoards, renderShips };
+    return { renderBoards, renderShips, renderPlayerMove };
 })();
 
 const renderBoards = () => render.renderBoards();
 const renderShips = (playerBoard) => render.renderShips(playerBoard);
+const renderPlayerMove = (cellValue, row, col) => render.renderPlayerMove(cellValue, row, col);
 
-export { renderBoards, renderShips };
+export { renderBoards, renderShips, renderPlayerMove };

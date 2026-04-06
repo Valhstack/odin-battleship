@@ -1,13 +1,17 @@
-import { renderBoards, renderShips } from "./render.js";
+import { renderBoards, renderShips, renderPlayerMove } from "./render.js";
 import { shipCoords } from "./ship.js";
 import { Player } from "./player.js";
+import { attachListeners, cellHandler } from "./listeners.js";
+
+let userPlayer, compPlayer;
 
 const game = (function () {
     const start = (playerName, compName) => {
-        const userPlayer = new Player(playerName);
-        const compPlayer = new Player(compName);
+        userPlayer = new Player(playerName);
+        compPlayer = new Player(compName);
 
         renderBoards();
+        attachListeners(document.getElementById('enemy-board').childNodes, cellHandler);
 
         const boardPlayer = userPlayer.board;
         boardPlayer.placeShip(shipCoords(7, 0, 7, 1)); // length: 2; A8 - B8
@@ -36,7 +40,20 @@ const game = (function () {
         renderShips(boardPlayer.getBoard());
     };
 
-    return { start };
+    const move = (row, col) => {
+        let board = compPlayer.board;
+
+        try {
+            board.receiveAttack(row, col);
+            board = compPlayer.board.getBoard();
+            renderPlayerMove(board[row][col], row, col);
+        }
+        catch (e) {
+            //show dialog that can't make this move
+        }
+    };
+
+    return { start, move };
 })();
 
 export { game };

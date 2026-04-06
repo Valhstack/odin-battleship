@@ -226,6 +226,16 @@ input[type='text']:hover {
     background-color: orange;
 }
 
+.move-hit{
+    color: red;
+    font-size: 20px;
+}
+
+.move-miss{
+    color: white;
+    font-size: 20px;
+}
+
 .inactive {
     display: none;
 }
