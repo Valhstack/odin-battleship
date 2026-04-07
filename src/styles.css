@@ -183,8 +183,12 @@ input[type='text']:hover {
     border-bottom: 1px solid #2a6f89b3;
 
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+}
+
+.board-cell:has([class*='horizontal']) {
+    flex-direction: column;
 }
 
 .board-cell[data-col='0'] {
@@ -221,49 +225,74 @@ input[type='text']:hover {
 }
 
 .ship-piece {
-    width: 100%;
-    height: 100%;
-    background-color: orange;
+    width: 48px;
+    height: 48px;
+    background-color: #4A6873;
 }
 
 .ship-piece-start-horizontal {
     border-radius: 50% 0 0 50%;
-    height: 80%;
+    height: 38px;
     margin-left: 8px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.ship-piece-middle-horizontal {
+    height: 38px;
+    width: 64px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .ship-piece-finish-horizontal {
     border-radius: 0 50% 50% 0;
-    height: 80%;
+    height: 38px;
     margin-right: 8px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    border-right: 1px solid rgba(255, 255, 255, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .ship-piece-start-vertical {
     border-radius: 50% 50% 0 0;
-    width: 80%;
+    width: 38px;
     margin-top: 8px;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+    border-right: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.ship-piece-middle-vertical {
+    width: 38px;
+
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+    border-right: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .ship-piece-finish-vertical {
     border-radius: 0 0 50% 50%;
-    width: 80%;
+    width: 38px;
     margin-bottom: 8px;
-}
 
-.ship-piece-middle-horizontal {
-    height: 80%;
-}
-
-.ship-piece-middle-vertical {
-    width: 80%;
+    border-right: 1px solid rgba(255, 255, 255, 0.25);
+    border-left: 1px solid rgba(255, 255, 255, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .ship-piece-single-none {
-    border-radius: 45%;
-    width: 80%;
-    height: 90%;
-    margin-top: 8px;
-    margin-bottom: 8px;
+    width: 28px;
+    height: 40px;
+    margin: 8px 0;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    border-radius: 75% / 30%;
 }
 
 .move-hit {
