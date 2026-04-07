@@ -1,7 +1,6 @@
 import { renderBoards, renderShips, renderPlayerMove } from "./render.js";
 import { shipCoords } from "./ship.js";
 import { Player } from "./player.js";
-import { attachListeners, cellHandler } from "./listeners.js";
 
 let userPlayer, compPlayer;
 
@@ -11,7 +10,6 @@ const game = (function () {
         compPlayer = new Player(compName);
 
         renderBoards();
-        attachListeners(document.getElementById('enemy-board').childNodes, cellHandler);
 
         const boardPlayer = userPlayer.board;
         boardPlayer.placeShip(shipCoords(7, 0, 7, 1)); // length: 2; A8 - B8
@@ -41,15 +39,29 @@ const game = (function () {
     };
 
     const move = (row, col) => {
-        let board = compPlayer.board;
+        const boardBefore = compPlayer.board.getBoard().map(row => [...row]);
 
         try {
             const beforeAttack = compPlayer.board.getNumOfShips();
-            board.receiveAttack(row, col);
-            board = compPlayer.board.getBoard();
-            const afterAttack = compPlayer.board.getNumOfShips();
 
-            renderPlayerMove(board[row][col], row, col, (afterAttack === beforeAttack - 1 ? true : false));
+            compPlayer.board.receiveAttack(row, col);
+            const boardAfter = compPlayer.board.getBoard();
+
+            const afterAttack = compPlayer.board.getNumOfShips();
+            const isSunk = afterAttack === beforeAttack - 1 ? true : false;
+
+            if (!isSunk) {
+                renderPlayerMove(boardAfter[row][col], row, col);
+            }
+            else {
+                for (let i = 0; i < 10; i++) {
+                    for (let j = 0; j < 10; j++) {
+                        if (boardBefore[i][j] !== boardAfter[i][j]) { 
+                            renderPlayerMove(boardAfter[i][j], i, j);
+                        }
+                    }
+                }
+            }
         }
         catch (e) {
             //show dialog that can't make this move

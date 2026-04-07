@@ -1,6 +1,5 @@
 import { getShipEndpoint } from "./helpers.js";
-import hitDot from '../images/circle.svg';
-import hitRing from '../images/circle-outline.svg';
+import { attachListeners, cellHandler } from "./listeners.js";
 
 const render = (function () {
     const renderBoards = () => {
@@ -12,6 +11,7 @@ const render = (function () {
 
         generateBoard(playerBoard);
         generateBoard(enemyBoard);
+        attachListeners(enemyBoard.childNodes, cellHandler);
     };
 
     const renderShips = (playerBoard) => {
@@ -19,7 +19,6 @@ const render = (function () {
 
         const boardValues = playerBoard.getBoard();
         const ships = playerBoard.getShips();
-        console.log(ships);
 
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
@@ -40,12 +39,10 @@ const render = (function () {
         }
     };
 
-    const renderPlayerMove = (cellValue, row, col, isSunk) => {
+    const renderPlayerMove = (cellValue, row, col) => {
         const board = document.getElementById('enemy-board');
 
         if (cellValue === 'x') {
-            console.log(isSunk);
-
             const node = board.querySelector(`[data-row='${row}'][data-col='${col}']`);
 
             const div = document.createElement('div');
@@ -114,6 +111,6 @@ const render = (function () {
 
 const renderBoards = () => render.renderBoards();
 const renderShips = (playerBoard) => render.renderShips(playerBoard);
-const renderPlayerMove = (cellValue, row, col, isSunk) => render.renderPlayerMove(cellValue, row, col, isSunk);
+const renderPlayerMove = (cellValue, row, col) => render.renderPlayerMove(cellValue, row, col);
 
 export { renderBoards, renderShips, renderPlayerMove };

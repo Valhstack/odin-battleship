@@ -76,18 +76,17 @@ class Board {
 
                 const { rowStart, colStart, rowFinish, colFinish } = ship.position;
 
-                const isHit =
-                    x >= Math.min(rowStart, rowFinish) &&
-                    x <= Math.max(rowStart, rowFinish) &&
-                    y >= Math.min(colStart, colFinish) &&
-                    y <= Math.max(colStart, colFinish);
+                const isHit = x >= rowStart && x <= rowFinish && y >= colStart && y <= colFinish;
 
                 if (isHit) {
                     ship.hit();
                     this.#board[x][y] = 'x';
 
-                    if (ship.isSunk()) this.#numOfShips--;
-                    break; // important: stop after finding the ship
+                    if (ship.isSunk()) {
+                        this.#numOfShips--;
+                        this.#markAsMiss(ship);
+                    };
+                    break;
                 }
             }
         }
@@ -96,6 +95,20 @@ class Board {
         }
         else {
             throw new Error(`Illegal move - can't place a hit there`);
+        }
+    }
+
+    #markAsMiss(ship) {
+        const position = ship.position;
+
+        for (let i = position.rowStart - 1; i <= position.rowFinish + 1; i++) {
+            for (let j = position.colStart - 1; j <= position.colFinish + 1; j++) {
+                if (i < 0 || j < 0 || i >= this.#board.length || j >= this.#board[0].length) continue;
+
+                if (this.#board[i][j] === 'x') continue;
+
+                if (this.#board[i][j] === '0') this.#board[i][j] = 'o';
+            }
         }
     }
 
