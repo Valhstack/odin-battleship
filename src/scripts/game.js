@@ -44,9 +44,12 @@ const game = (function () {
         let board = compPlayer.board;
 
         try {
+            const beforeAttack = compPlayer.board.getNumOfShips();
             board.receiveAttack(row, col);
             board = compPlayer.board.getBoard();
-            renderPlayerMove(board[row][col], row, col);
+            const afterAttack = compPlayer.board.getNumOfShips();
+
+            renderPlayerMove(board[row][col], row, col, (afterAttack === beforeAttack - 1 ? true : false));
         }
         catch (e) {
             //show dialog that can't make this move

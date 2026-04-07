@@ -72,26 +72,22 @@ class Board {
 
     receiveAttack(x, y) {
         if (this.#board[x][y] === '1') {
-            this.#board[x][y] = 'x';
-
             for (let ship of this.#ships) {
-                if ((ship.position.rowStart === x && ship.position.colStart === y) || (
-                    ship.position.rowFinish === x && ship.position.colFinish === y)) {
+
+                const { rowStart, colStart, rowFinish, colFinish } = ship.position;
+
+                const isHit =
+                    x >= Math.min(rowStart, rowFinish) &&
+                    x <= Math.max(rowStart, rowFinish) &&
+                    y >= Math.min(colStart, colFinish) &&
+                    y <= Math.max(colStart, colFinish);
+
+                if (isHit) {
                     ship.hit();
+                    this.#board[x][y] = 'x';
 
                     if (ship.isSunk()) this.#numOfShips--;
-                }
-                else if ((ship.position.rowStart === x - 1 && ship.position.colStart === y) ||
-                    (ship.position.rowFinish === x + 1 && ship.position.colStart === y)) {
-                    ship.hit();
-
-                    if (ship.isSunk()) this.#numOfShips--;
-                }
-                else if ((ship.position.rowStart === x && ship.position.colStart === y - 1) ||
-                    (ship.position.rowStart === x && ship.position.colFinish === y + 1)) {
-                    ship.hit();
-
-                    if (ship.isSunk()) this.#numOfShips--;
+                    break; // important: stop after finding the ship
                 }
             }
         }
@@ -133,6 +129,10 @@ class Board {
 
     getShips() {
         return this.#ships;
+    }
+
+    getNumOfShips() {
+        return this.#numOfShips;
     }
 }
 

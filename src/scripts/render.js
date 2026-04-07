@@ -1,4 +1,6 @@
 import { getShipEndpoint } from "./helpers.js";
+import hitDot from '../images/circle.svg';
+import hitRing from '../images/circle-outline.svg';
 
 const render = (function () {
     const renderBoards = () => {
@@ -38,24 +40,26 @@ const render = (function () {
         }
     };
 
-    const renderPlayerMove = (cellValue, row, col) => {
+    const renderPlayerMove = (cellValue, row, col, isSunk) => {
         const board = document.getElementById('enemy-board');
 
         if (cellValue === 'x') {
+            console.log(isSunk);
+
             const node = board.querySelector(`[data-row='${row}'][data-col='${col}']`);
 
-            const p = document.createElement('p');
-            p.classList.add('move-hit');
-            p.textContent = 'X';
-            node.appendChild(p);
+            const div = document.createElement('div');
+            div.classList.add('move-hit');
+
+            node.appendChild(div);
         }
         else if (cellValue === 'o') {
             const node = board.querySelector(`[data-row='${row}'][data-col='${col}']`);
 
-            const p = document.createElement('p');
-            p.classList.add('move-miss');
-            p.textContent = '•';
-            node.appendChild(p);
+            const div = document.createElement('div');
+            div.classList.add('move-miss');
+
+            node.appendChild(div);
         }
     };
 
@@ -110,6 +114,6 @@ const render = (function () {
 
 const renderBoards = () => render.renderBoards();
 const renderShips = (playerBoard) => render.renderShips(playerBoard);
-const renderPlayerMove = (cellValue, row, col) => render.renderPlayerMove(cellValue, row, col);
+const renderPlayerMove = (cellValue, row, col, isSunk) => render.renderPlayerMove(cellValue, row, col, isSunk);
 
 export { renderBoards, renderShips, renderPlayerMove };
