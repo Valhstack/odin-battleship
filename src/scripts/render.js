@@ -39,10 +39,38 @@ const render = (function () {
         }
     };
 
+    const renderShipsEnemy = (enemyBoard) => {
+        const board = document.getElementById('enemy-board');
+
+        const boardValues = enemyBoard.getBoard();
+        const ships = enemyBoard.getShips();
+
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                if (boardValues[i][j] === 'X') {
+                    const node = board.querySelector(`[data-row='${i}'][data-col='${j}']`);
+                    const existing = node.querySelector('.ship-piece-sunk');
+
+                    if (!existing) {
+                        const div = document.createElement('div');
+                        div.classList.add('ship-piece-sunk');
+
+                        const shipEndpoint = getShipEndpoint(ships, i, j);
+                        if (shipEndpoint !== null) {
+                            div.classList.add(`ship-piece-sunk-${shipEndpoint.type}-${shipEndpoint.orientation}`);
+                        }
+
+                        node.appendChild(div);
+                    }
+                }
+            }
+        }
+    }
+
     const renderPlayerMove = (cellValue, row, col) => {
         const board = document.getElementById('enemy-board');
 
-        if (cellValue === 'x') {
+        if (cellValue === 'x' || cellValue === 'X') {
             const node = board.querySelector(`[data-row='${row}'][data-col='${col}']`);
 
             const div = document.createElement('div');
@@ -106,11 +134,12 @@ const render = (function () {
         }
     };
 
-    return { renderBoards, renderShips, renderPlayerMove };
+    return { renderBoards, renderShips, renderPlayerMove, renderShipsEnemy };
 })();
 
 const renderBoards = () => render.renderBoards();
 const renderShips = (playerBoard) => render.renderShips(playerBoard);
 const renderPlayerMove = (cellValue, row, col) => render.renderPlayerMove(cellValue, row, col);
+const renderShipsOutline = (enemyBoard) => render.renderShipsEnemy(enemyBoard);
 
-export { renderBoards, renderShips, renderPlayerMove };
+export { renderBoards, renderShips, renderPlayerMove, renderShipsOutline };

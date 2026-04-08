@@ -105,7 +105,10 @@ class Board {
             for (let j = position.colStart - 1; j <= position.colFinish + 1; j++) {
                 if (i < 0 || j < 0 || i >= this.#board.length || j >= this.#board[0].length) continue;
 
-                if (this.#board[i][j] === 'x') continue;
+                if (this.#board[i][j] === 'x') {
+                    this.#board[i][j] = 'X';
+                    continue
+                };
 
                 if (this.#board[i][j] === '0') this.#board[i][j] = 'o';
             }

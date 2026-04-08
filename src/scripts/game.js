@@ -1,4 +1,4 @@
-import { renderBoards, renderShips, renderPlayerMove } from "./render.js";
+import { renderBoards, renderShips, renderPlayerMove, renderShipsOutline } from "./render.js";
 import { shipCoords } from "./ship.js";
 import { Player } from "./player.js";
 
@@ -56,11 +56,13 @@ const game = (function () {
             else {
                 for (let i = 0; i < 10; i++) {
                     for (let j = 0; j < 10; j++) {
-                        if (boardBefore[i][j] !== boardAfter[i][j]) { 
+                        if (boardBefore[i][j] !== boardAfter[i][j]) {
                             renderPlayerMove(boardAfter[i][j], i, j);
                         }
                     }
                 }
+
+                renderShipsOutline(compPlayer.board);
             }
         }
         catch (e) {

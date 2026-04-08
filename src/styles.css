@@ -226,68 +226,119 @@ input[type='text']:hover {
     color: #E6F2F7;
 }
 
-.ship-piece {
+.ship-piece-sunk {
+    background-color: #2F3A40;
+    opacity: 70%;
+}
+
+.ship-piece,
+.ship-piece-sunk {
     width: 48px;
     height: 48px;
     background-color: #4A6873;
 }
 
-.ship-piece-start-horizontal {
+.ship-piece-start-horizontal,
+.ship-piece-sunk-start-horizontal {
     border-radius: 50% 0 0 50%;
     height: 38px;
     margin-left: 8px;
+    width: 40px;
 
     border-top: 1px solid rgba(255, 255, 255, 0.25);
     border-left: 1px solid rgba(255, 255, 255, 0.25);
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.ship-piece-middle-horizontal {
+.ship-piece-sunk-start-horizontal {
+    border-top: 2px solid #FF5A5A;
+    border-left: 2px solid #FF5A5A;
+    border-bottom: 2px solid #FF5A5A;
+}
+
+.ship-piece-middle-horizontal,
+.ship-piece-sunk-middle-horizontal {
     height: 38px;
-    width: 64px;
+    width: 48px;
 
     border-top: 1px solid rgba(255, 255, 255, 0.25);
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.ship-piece-finish-horizontal {
+.ship-piece-sunk-middle-horizontal {
+    border-top: 2px solid #FF5A5A;
+    border-bottom: 2px solid #FF5A5A;
+}
+
+.ship-piece-finish-horizontal,
+.ship-piece-sunk-finish-horizontal {
     border-radius: 0 50% 50% 0;
     height: 38px;
     margin-right: 8px;
+    width: 40px;
 
     border-top: 1px solid rgba(255, 255, 255, 0.25);
     border-right: 1px solid rgba(255, 255, 255, 0.25);
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.ship-piece-start-vertical {
+.ship-piece-sunk-finish-horizontal {
+    border-top: 2px solid #FF5A5A;
+    border-right: 2px solid #FF5A5A;
+    border-bottom: 2px solid #FF5A5A;
+}
+
+.ship-piece-start-vertical,
+.ship-piece-sunk-start-vertical {
     border-radius: 50% 50% 0 0;
     width: 38px;
     margin-top: 8px;
+    height: 40px;
 
     border-top: 1px solid rgba(255, 255, 255, 0.25);
     border-left: 1px solid rgba(255, 255, 255, 0.25);
     border-right: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.ship-piece-middle-vertical {
+.ship-piece-sunk-start-vertical {
+    border-top: 2px solid #FF5A5A;
+    border-left: 2px solid #FF5A5A;
+    border-right: 2px solid #FF5A5A;
+}
+
+.ship-piece-middle-vertical,
+.ship-piece-sunk-middle-vertical {
     width: 38px;
 
     border-left: 1px solid rgba(255, 255, 255, 0.25);
     border-right: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.ship-piece-finish-vertical {
+.ship-piece-sunk-middle-vertical {
+    border-left: 2px solid #FF5A5A;
+    border-right: 2px solid #FF5A5A;
+}
+
+.ship-piece-finish-vertical,
+.ship-piece-sunk-finish-vertical {
     border-radius: 0 0 50% 50%;
     width: 38px;
     margin-bottom: 8px;
+    height: 40px;
 
     border-right: 1px solid rgba(255, 255, 255, 0.25);
     border-left: 1px solid rgba(255, 255, 255, 0.25);
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-.ship-piece-single-none {
+.ship-piece-sunk-finish-vertical {
+    border-bottom: 2px solid #FF5A5A;
+    border-left: 2px solid #FF5A5A;
+    border-right: 2px solid #FF5A5A;
+}
+
+.ship-piece-single-none,
+.ship-piece-sunk-single-none {
     width: 28px;
     height: 40px;
     margin: 8px 0;
@@ -297,12 +348,16 @@ input[type='text']:hover {
     border-radius: 75% / 30%;
 }
 
+.ship-piece-sunk-single-none {
+    border: 2px solid #FF5A5A;
+}
+
 .move-hit {
     position: absolute;
 
     width: 12px;
     height: 12px;
-    background: #E04E4E;
+    background: #F05A5A;
 
     border-radius: 50%;
 
