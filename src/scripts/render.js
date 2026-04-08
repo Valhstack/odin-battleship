@@ -67,8 +67,8 @@ const render = (function () {
         }
     }
 
-    const renderPlayerMove = (cellValue, row, col) => {
-        const board = document.getElementById('enemy-board');
+    const renderMove = (boardName, cellValue, row, col) => {
+        const board = document.getElementById(boardName);
 
         if (cellValue === 'x' || cellValue === 'X') {
             const node = board.querySelector(`[data-row='${row}'][data-col='${col}']`);
@@ -134,12 +134,12 @@ const render = (function () {
         }
     };
 
-    return { renderBoards, renderShips, renderPlayerMove, renderShipsEnemy };
+    return { renderBoards, renderShips, renderMove, renderShipsEnemy };
 })();
 
 const renderBoards = () => render.renderBoards();
 const renderShips = (playerBoard) => render.renderShips(playerBoard);
-const renderPlayerMove = (cellValue, row, col) => render.renderPlayerMove(cellValue, row, col);
+const renderMove = (boardName, cellValue, row, col) => render.renderMove(boardName, cellValue, row, col);
 const renderShipsOutline = (enemyBoard) => render.renderShipsEnemy(enemyBoard);
 
-export { renderBoards, renderShips, renderPlayerMove, renderShipsOutline };
+export { renderBoards, renderShips, renderMove, renderShipsOutline };

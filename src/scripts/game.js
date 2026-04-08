@@ -1,8 +1,9 @@
-import { renderBoards, renderShips, renderPlayerMove, renderShipsOutline } from "./render.js";
+import { renderBoards, renderShips, renderMove, renderShipsOutline } from "./render.js";
 import { shipCoords } from "./ship.js";
 import { Player } from "./player.js";
+import { comp } from './comp.js';
 
-let userPlayer, compPlayer;
+let userPlayer, compPlayer, isPlayerTurn = true;
 
 const game = (function () {
     const start = (playerName, compName) => {
@@ -39,30 +40,34 @@ const game = (function () {
     };
 
     const move = (row, col) => {
-        const boardBefore = compPlayer.board.getBoard().map(row => [...row]);
+        const compBoardBefore = compPlayer.board.getBoard().map(row => [...row]);
 
         try {
-            const beforeAttack = compPlayer.board.getNumOfShips();
+            const attackResult = compPlayer.board.receiveAttack(row, col);
+            const compBoardAfter = compPlayer.board.getBoard();
 
-            compPlayer.board.receiveAttack(row, col);
-            const boardAfter = compPlayer.board.getBoard();
-
-            const afterAttack = compPlayer.board.getNumOfShips();
-            const isSunk = afterAttack === beforeAttack - 1 ? true : false;
-
-            if (!isSunk) {
-                renderPlayerMove(boardAfter[row][col], row, col);
+            if (attackResult === 'hit' || attackResult === 'miss') {
+                renderMove('enemy-board', compBoardAfter[row][col], row, col);
             }
             else {
                 for (let i = 0; i < 10; i++) {
                     for (let j = 0; j < 10; j++) {
-                        if (boardBefore[i][j] !== boardAfter[i][j]) {
-                            renderPlayerMove(boardAfter[i][j], i, j);
+                        if (compBoardBefore[i][j] !== compBoardAfter[i][j]) {
+                            renderMove('enemy-board', compBoardAfter[i][j], i, j);
                         }
                     }
                 }
 
                 renderShipsOutline(compPlayer.board);
+            }
+
+            if (attackResult === 'miss') {
+                const compMoveResult = comp.move(userPlayer.board);
+                const playerBoardAfter = userPlayer.board.getBoard();
+
+                if (compMoveResult.result === 'hit' || compMoveResult.result === 'miss') {
+                    renderMove('player-board', playerBoardAfter[compMoveResult.row][compMoveResult.col], compMoveResult.row, compMoveResult.col);
+                }
             }
         }
         catch (e) {
@@ -70,7 +75,19 @@ const game = (function () {
         }
     };
 
+    const flow = () => {
+        /* 
+            game flow goes like this:
+             - player 1 makes a move;
+             - it is displayed on the right board;
+             - player 2 makes a move;
+             - it is displayed on the left board;
+
+            how to restrict player's move when it is not their turn?
+        */
+    };
+
     return { start, move };
 })();
 
-export { game };
+export { game, userPlayer };

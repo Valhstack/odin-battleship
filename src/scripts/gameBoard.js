@@ -85,13 +85,16 @@ class Board {
                     if (ship.isSunk()) {
                         this.#numOfShips--;
                         this.#markAsMiss(ship);
+                        return 'sunk';
                     };
-                    break;
+
+                    return 'hit';
                 }
             }
         }
         else if (this.#board[x][y] === '0') {
-            this.#board[x][y] = 'o'
+            this.#board[x][y] = 'o';
+            return 'miss';
         }
         else {
             throw new Error(`Illegal move - can't place a hit there`);
