@@ -11,11 +11,11 @@ const attachListeners = (items, handler) => {
     }
 };
 
-function cellHandler(e) {
+async function cellHandler(e) {
     const row = e.target.dataset.row;
     const col = e.target.dataset.col;
 
-    game.move(row, col);
+    await game.move(row, col);
 }
 
 const listeners = () => {

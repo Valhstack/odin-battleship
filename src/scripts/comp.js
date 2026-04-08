@@ -1,46 +1,81 @@
 const comp = (function () {
     const moves = [];
+    let targetQueue = [];
+    let lockedDirection = null;
+
+    const directions = [
+        [1, 0], [-1, 0], [0, 1], [0, -1]
+    ];
 
     const move = (playerBoard) => {
-        let attackResult;
+        let row, col;
 
-        if (moves.length === 0) {
-            let row = Math.floor(Math.random() * 10);
-            let col = Math.floor(Math.random() * 10);
-
-            while (moves.includes([row, col])) {
+        do {
+            if (targetQueue.length > 0) {
+                [row, col] = targetQueue.shift();
+            } else {
                 row = Math.floor(Math.random() * 10);
                 col = Math.floor(Math.random() * 10);
             }
-            attackResult = playerBoard.receiveAttack(row, col);
-            moves.push([row, col, attackResult]);
-        }
-        else {
-            let lastHitMove = getLastHitMove();
+        } while (moves.some(m => m[0] === row && m[1] === col) || playerBoard.getBoard()[row][col] === 'o');
 
-            let lastRow = lastHitMove.move[0], lastCol = lastHitMove.move[1], lastResult = lastHitMove.move[2];
+        const attackResult = playerBoard.receiveAttack(row, col);
+        moves.push([row, col, attackResult]);
 
-            while (attackResult !== 'miss') {
-                // some changes here
+        if (attackResult === 'hit') {
+            const lastHits = moves.filter(m => m[2] === 'hit');
+
+            if (lastHits.length >= 2) {
+                const [r1, c1] = lastHits[lastHits.length - 1];
+                const [r2, c2] = lastHits[lastHits.length - 2];
+
+                if (r1 === r2) {
+                    lockedDirection = 'horizontal';
+                } else if (c1 === c2) {
+                    lockedDirection = 'vertical';
+                }
+            }
+
+            directions.forEach(([dr, dc]) => {
+                if (lockedDirection === 'horizontal' && dr !== 0) return;
+                if (lockedDirection === 'vertical' && dc !== 0) return;
+
+                const newRow = row + dr;
+                const newCol = col + dc;
+
+                const alreadyPlayed = moves.some(
+                    m => m[0] === newRow && m[1] === newCol
+                );
+
+                const alreadyQueued = targetQueue.some(
+                    q => q[0] === newRow && q[1] === newCol
+                );
+
+                if (
+                    newRow >= 0 && newRow < 10 &&
+                    newCol >= 0 && newCol < 10 &&
+                    !alreadyPlayed &&
+                    !alreadyQueued
+                ) {
+                    targetQueue.push([newRow, newCol]);
+                }
+            });
+
+            if (lockedDirection) {
+                targetQueue = targetQueue.filter(([r, c]) => {
+                    if (lockedDirection === 'horizontal') return r === row;
+                    if (lockedDirection === 'vertical') return c === col;
+                });
             }
         }
 
-        console.log(row, ' ', col, ' ', attackResult);
+        if (attackResult === 'sunk') {
+            targetQueue = [];
+            lockedDirection = null;
+        }
 
         return { row, col, result: attackResult };
     };
-
-    const getLastHitMove = () => {
-        for (let i = moves.length - 1; i > 0; i--) {
-            if (moves[i][2] === 'hit') {
-                return { move: moves[i], index: i };
-            }
-        }
-    }
-
-    const generateAdjacentMove = (row, col) => {
-
-    }
 
     return { move };
 })();

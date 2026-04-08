@@ -65,7 +65,40 @@ const render = (function () {
                 }
             }
         }
-    }
+    };
+
+    const renderShipsPlayer = (playerBoard) => {
+        const board = document.getElementById('player-board');
+
+        const boardValues = playerBoard.getBoard();
+        const ships = playerBoard.getShips();
+
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                if (boardValues[i][j] === 'X') {
+                    const node = board.querySelector(`[data-row='${i}'][data-col='${j}']`);
+                    const existing = node.querySelector('.ship-piece-sunk');
+                    const children = node.childNodes;
+
+                    if (!existing) {
+
+                        for (let child of children) {
+                            if (child.classList.contains('ship-piece')) {
+                                child.classList.remove('ship-piece');
+                                child.classList.add('ship-piece-sunk');
+
+                                const shipEndpoint = getShipEndpoint(ships, i, j);
+                                if (shipEndpoint !== null) {
+                                    child.classList.remove(`ship-piece-${shipEndpoint.type}-${shipEndpoint.orientation}`);
+                                    child.classList.add(`ship-piece-sunk-${shipEndpoint.type}-${shipEndpoint.orientation}`);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    };
 
     const renderMove = (boardName, cellValue, row, col) => {
         const board = document.getElementById(boardName);
@@ -134,12 +167,13 @@ const render = (function () {
         }
     };
 
-    return { renderBoards, renderShips, renderMove, renderShipsEnemy };
+    return { renderBoards, renderShips, renderMove, renderShipsEnemy, renderShipsPlayer };
 })();
 
 const renderBoards = () => render.renderBoards();
 const renderShips = (playerBoard) => render.renderShips(playerBoard);
 const renderMove = (boardName, cellValue, row, col) => render.renderMove(boardName, cellValue, row, col);
 const renderShipsOutline = (enemyBoard) => render.renderShipsEnemy(enemyBoard);
+const renderPlayerShipSunk = (playerBoard) => render.renderShipsPlayer(playerBoard);
 
-export { renderBoards, renderShips, renderMove, renderShipsOutline };
+export { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk };

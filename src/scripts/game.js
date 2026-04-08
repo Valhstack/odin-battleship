@@ -1,4 +1,4 @@
-import { renderBoards, renderShips, renderMove, renderShipsOutline } from "./render.js";
+import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk } from "./render.js";
 import { shipCoords } from "./ship.js";
 import { Player } from "./player.js";
 import { comp } from './comp.js';
@@ -39,7 +39,7 @@ const game = (function () {
         renderShips(boardPlayer);
     };
 
-    const move = (row, col) => {
+    const move = async (row, col) => {
         const compBoardBefore = compPlayer.board.getBoard().map(row => [...row]);
 
         try {
@@ -62,12 +62,7 @@ const game = (function () {
             }
 
             if (attackResult === 'miss') {
-                const compMoveResult = comp.move(userPlayer.board);
-                const playerBoardAfter = userPlayer.board.getBoard();
-
-                if (compMoveResult.result === 'hit' || compMoveResult.result === 'miss') {
-                    renderMove('player-board', playerBoardAfter[compMoveResult.row][compMoveResult.col], compMoveResult.row, compMoveResult.col);
-                }
+                await runCompTurn();
             }
         }
         catch (e) {
@@ -75,16 +70,42 @@ const game = (function () {
         }
     };
 
-    const flow = () => {
-        /* 
-            game flow goes like this:
-             - player 1 makes a move;
-             - it is displayed on the right board;
-             - player 2 makes a move;
-             - it is displayed on the left board;
+    const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
-            how to restrict player's move when it is not their turn?
-        */
+    const runCompTurn = async () => {
+        let result;
+
+        do {
+            const playerBoardBefore = userPlayer.board.getBoard().map(row => [...row]);
+            const compMoveResult = comp.move(userPlayer.board);
+            const playerBoardAfter = userPlayer.board.getBoard();
+
+            if (compMoveResult.result === 'hit' || compMoveResult.result === 'miss') {
+                renderMove(
+                    'player-board',
+                    playerBoardAfter[compMoveResult.row][compMoveResult.col],
+                    compMoveResult.row,
+                    compMoveResult.col
+                );
+            } else {
+                for (let i = 0; i < 10; i++) {
+                    for (let j = 0; j < 10; j++) {
+                        if (playerBoardBefore[i][j] !== playerBoardAfter[i][j]) {
+                            renderMove('player-board', playerBoardAfter[i][j], i, j);
+                        }
+                    }
+                }
+
+                renderPlayerShipSunk(userPlayer.board);
+            }
+
+            result = compMoveResult.result;
+
+            if (result === 'hit') {
+                await sleep(250 + Math.random() * 250);
+            }
+
+        } while (result === 'hit');
     };
 
     return { start, move };
