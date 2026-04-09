@@ -121,6 +121,37 @@ const render = (function () {
         }
     };
 
+    const renderNames = (userName, compName) => {
+        const h3UserName = document.getElementById('user-name-text');
+        h3UserName.textContent = userName;
+
+        const h3CompName = document.getElementById('comp-name-text');
+        h3CompName.textContent = compName;
+    };
+
+    const renderTurn = (player) => {
+        const user = document.getElementById('user-turn');
+        const comp = document.getElementById('comp-turn');
+
+        if (player === 'user') {
+            user.textContent = 'YOUR TURN';
+            comp.textContent = 'WAITING';
+
+            user.classList.add('active-turn');
+            user.classList.remove('inactive-turn');
+            comp.classList.add('inactive-turn');
+            comp.classList.remove('active-turn');
+        } else {
+            user.textContent = 'WAITING';
+            comp.textContent = 'YOUR TURN';
+
+            user.classList.add('inactive-turn');
+            user.classList.remove('active-turn');
+            comp.classList.add('active-turn');
+            comp.classList.remove('inactive-turn');
+        }
+    };
+
     const generateBoard = (element) => {
         let charIndx = 65;
         let indx = 1;
@@ -167,13 +198,22 @@ const render = (function () {
         }
     };
 
-    return { renderBoards, renderShips, renderMove, renderShipsEnemy, renderShipsPlayer };
+    const resetPlayersShips = () => {
+        const elems = document.getElementById('player-board').querySelectorAll('.ship-piece');
+
+        elems.forEach(elem => elem.remove());
+    }
+
+    return { renderBoards, renderShips, renderMove, renderShipsEnemy, renderShipsPlayer, renderNames, renderTurn, resetPlayersShips };
 })();
 
 const renderBoards = () => render.renderBoards();
+const renderNames = (playerName, compName) => render.renderNames(playerName, compName);
 const renderShips = (playerBoard) => render.renderShips(playerBoard);
 const renderMove = (boardName, cellValue, row, col) => render.renderMove(boardName, cellValue, row, col);
 const renderShipsOutline = (enemyBoard) => render.renderShipsEnemy(enemyBoard);
 const renderPlayerShipSunk = (playerBoard) => render.renderShipsPlayer(playerBoard);
+const renderTurn = (player) => render.renderTurn(player);
+const resetPlayersShips = () => render.resetPlayersShips();
 
-export { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk };
+export { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, resetPlayersShips };

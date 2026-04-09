@@ -1,7 +1,7 @@
-import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk } from "./render.js";
-import { shipCoords } from "./ship.js";
+import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn } from "./render.js";
 import { Player } from "./player.js";
 import { comp } from './comp.js';
+import { generateShipsPlacement } from "./helpers.js";
 
 let userPlayer, compPlayer, isPlayerTurn = true;
 
@@ -11,8 +11,10 @@ const game = (function () {
         compPlayer = new Player(compName);
 
         renderBoards();
+        renderNames(userPlayer.name, compPlayer.name);
 
         const boardPlayer = userPlayer.board;
+        /*
         boardPlayer.placeShip(shipCoords(7, 0, 7, 1)); // length: 2; A8 - B8
         boardPlayer.placeShip(shipCoords(0, 1, 3, 1)); // length: 4; B1 - B4
         boardPlayer.placeShip(shipCoords(9, 2, 9, 2)); // length: 1; C10
@@ -23,8 +25,12 @@ const game = (function () {
         boardPlayer.placeShip(shipCoords(1, 7, 1, 7)); // length: 1; H7
         boardPlayer.placeShip(shipCoords(0, 9, 1, 9)); // length: 2; J1 - J2
         boardPlayer.placeShip(shipCoords(5, 9, 5, 9)); // length: 1; J6
+        */
+
+        generateShipsPlacement(boardPlayer);
 
         const boardComp = compPlayer.board;
+        /*
         boardComp.placeShip(shipCoords(7, 0, 7, 1)); // length: 2; A8 - B8
         boardComp.placeShip(shipCoords(0, 1, 3, 1)); // length: 4; B1 - B4
         boardComp.placeShip(shipCoords(9, 2, 9, 2)); // length: 1; C10
@@ -35,7 +41,9 @@ const game = (function () {
         boardComp.placeShip(shipCoords(1, 7, 1, 7)); // length: 1; H7
         boardComp.placeShip(shipCoords(0, 9, 1, 9)); // length: 2; J1 - J2
         boardComp.placeShip(shipCoords(5, 9, 5, 9)); // length: 1; J6
+        */
 
+        generateShipsPlacement(boardComp);
         renderShips(boardPlayer);
     };
 
@@ -62,18 +70,24 @@ const game = (function () {
             }
 
             if (attackResult === 'miss') {
+                renderTurn('comp');
                 await runCompTurn();
+                renderTurn('user');
             }
         }
         catch (e) {
             //show dialog that can't make this move
         }
+
+        // add check if the game is finished;
     };
 
     const sleep = (ms) => new Promise(res => setTimeout(res, ms));
 
     const runCompTurn = async () => {
         let result;
+
+        await sleep(1000 + Math.random() * 500);
 
         do {
             const playerBoardBefore = userPlayer.board.getBoard().map(row => [...row]);
@@ -101,11 +115,11 @@ const game = (function () {
 
             result = compMoveResult.result;
 
-            if (result === 'hit') {
-                await sleep(250 + Math.random() * 250);
+            if (result === 'hit' || result === 'sunk') {
+                await sleep(1000 + Math.random() * 500);
             }
 
-        } while (result === 'hit');
+        } while (result === 'hit' || result === 'sunk');
     };
 
     return { start, move };

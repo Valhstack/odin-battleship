@@ -1,6 +1,7 @@
-import { generatePlayerName } from "./helpers.js";
+import { generatePlayerName, generateShipsPlacement } from "./helpers.js";
 import { Player } from "./player.js";
-import { game } from "./game.js";
+import { game, userPlayer } from "./game.js";
+import { renderShips, resetPlayersShips } from "./render.js";
 
 const cards = document.getElementsByClassName('card');
 const startGameBtns = document.getElementsByClassName('start-game-btn');
@@ -61,6 +62,14 @@ const listeners = () => {
             }
         })
     }
+
+    document.getElementById('generate-ships-placement').addEventListener('click', () => {
+        userPlayer.board.resetBoard();
+        resetPlayersShips();
+
+        generateShipsPlacement(userPlayer.board);
+        renderShips(userPlayer.board);
+    });
 }
 
 export { listeners, attachListeners, cellHandler }

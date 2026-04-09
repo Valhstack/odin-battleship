@@ -140,6 +140,15 @@ class Board {
 
     resetBoard() {
         this.#initialiseEmptyBoard();
+        this.#numOfShips = 0;
+        this.#variety = {
+            1: 0,
+            2: 0,
+            3: 0,
+            4: 0
+        }
+
+        this.#ships = [];
     }
 
     getBoard() {
