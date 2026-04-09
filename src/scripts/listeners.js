@@ -63,7 +63,7 @@ const listeners = () => {
         })
     }
 
-    document.getElementById('generate-ships-placement').addEventListener('click', () => {
+    document.getElementById('generate-ships-placement-btn').addEventListener('click', () => {
         userPlayer.board.resetBoard();
         resetPlayersShips();
 

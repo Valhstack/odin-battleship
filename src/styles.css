@@ -48,6 +48,7 @@
 p,
 h1,
 h3,
+h4,
 body {
     margin: 0;
 }
@@ -205,7 +206,7 @@ input[type='text']:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
 
     gap: 12px;
 }
@@ -461,6 +462,112 @@ input[type='text']:hover {
 
 .inactive-turn {
     color: rgba(207, 228, 236, 0.5);
+}
+
+.player-board-buttons-wrapper {
+    display: flex;
+
+    gap: 12px;
+}
+
+#generate-ships-placement-btn {
+    background-color: #349BB5;
+    color: #FFFFFF;
+    height: 40px;
+    padding: 0 20px;
+    border-radius: 8px;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    border: none;
+}
+
+#generate-ships-placement-btn:hover {
+    background-color: #3FA7C4;
+}
+
+#drag-and-drop-ships-btn {
+    background-color: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #CFE4EC;
+    height: 40px;
+    padding: 0 20px;
+    border-radius: 8px;
+}
+
+#drag-and-drop-ships-btn:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+#winner-announcement {
+    width: 420px;
+    padding: 36px;
+    background-color: #11323F;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+}
+
+.winner-announcement-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.result {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.result-subtext {
+    font-size: 14px;
+    color: rgba(207, 228, 236, 0.7);
+    margin-bottom: 24px;
+}
+
+.result.victory {
+    color: #5FD1EE;
+}
+
+.result.defeat {
+    color: #E04E4E;
+}
+
+.announcement-buttons-wrapper {
+    display: flex;
+    gap: 20px;
+}
+
+#play-again-btn {
+    height: 40px;
+    border-radius: 8px;
+    background-color: #46B5CF;
+    color: #FFFFFF;
+    font-weight: 500;
+    border: none;
+    padding: 0 24px
+}
+
+#play-again-btn:hover {
+    background-color: #4FC3E0;
+}
+
+#exit-btn {
+    height: 40px;
+    border-radius: 8px;
+    background-color: transparent;
+    border: 1px solid #4A8090;
+    color: #CFE4EC;
+    padding: 0 24px
+}
+
+#exit-btn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .inactive {

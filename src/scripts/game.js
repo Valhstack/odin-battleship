@@ -1,4 +1,4 @@
-import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn } from "./render.js";
+import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, renderResults } from "./render.js";
 import { Player } from "./player.js";
 import { comp } from './comp.js';
 import { generateShipsPlacement } from "./helpers.js";
@@ -67,12 +67,21 @@ const game = (function () {
                 }
 
                 renderShipsOutline(compPlayer.board);
+
+                if (!compPlayer.board.areShipsLeft()) {
+                    renderResults('user');
+                }
             }
 
             if (attackResult === 'miss') {
                 renderTurn('comp');
                 await runCompTurn();
                 renderTurn('user');
+
+                if (!userPlayer.board.areShipsLeft()) {
+                    renderResults('comp');
+                }
+
             }
         }
         catch (e) {

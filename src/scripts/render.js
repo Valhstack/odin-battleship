@@ -1,5 +1,6 @@
 import { getShipEndpoint } from "./helpers.js";
 import { attachListeners, cellHandler } from "./listeners.js";
+import { VICTORY_MESSAGES, DEFEAT_MESSAGES } from "./resultMessages.js";
 
 const render = (function () {
     const renderBoards = () => {
@@ -202,9 +203,33 @@ const render = (function () {
         const elems = document.getElementById('player-board').querySelectorAll('.ship-piece');
 
         elems.forEach(elem => elem.remove());
-    }
+    };
 
-    return { renderBoards, renderShips, renderMove, renderShipsEnemy, renderShipsPlayer, renderNames, renderTurn, resetPlayersShips };
+    const renderResults = (winner) => {
+        const h4Result = document.getElementById('result');
+        const pResultSubtext = document.getElementById('result-subtext');
+
+        if (winner === 'user') {
+            h4Result.classList.add('victory');
+            pResultSubtext.classList.add('victory');
+
+            h4Result.textContent = 'VICTORY';
+            pResultSubtext.textContent = VICTORY_MESSAGES[Math.floor(Math.random() * VICTORY_MESSAGES.length)];
+        }
+        else {
+            h4Result.classList.add('defeat');
+            pResultSubtext.classList.add('defeat');
+
+            h4Result.textContent = 'DEFEAT';
+            pResultSubtext.textContent = DEFEAT_MESSAGES[Math.floor(Math.random() * DEFEAT_MESSAGES.length)];
+        }
+
+        const dialog = document.getElementById('winner-announcement');
+
+        dialog.showModal();
+    };
+
+    return { renderBoards, renderShips, renderMove, renderShipsEnemy, renderShipsPlayer, renderNames, renderTurn, resetPlayersShips, renderResults };
 })();
 
 const renderBoards = () => render.renderBoards();
@@ -215,5 +240,6 @@ const renderShipsOutline = (enemyBoard) => render.renderShipsEnemy(enemyBoard);
 const renderPlayerShipSunk = (playerBoard) => render.renderShipsPlayer(playerBoard);
 const renderTurn = (player) => render.renderTurn(player);
 const resetPlayersShips = () => render.resetPlayersShips();
+const renderResults = (winner) => render.renderResults(winner);
 
-export { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, resetPlayersShips };
+export { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, resetPlayersShips, renderResults };

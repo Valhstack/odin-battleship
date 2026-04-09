@@ -42,20 +42,33 @@
 
             <div id="boards-screen" class="boards-screen inactive">
                 <div class="board-wrapper">
-                    <h3 id="user-name" class="name"><span id="user-name-text"></span> • <span id="user-turn" class="active-turn">YOUR TURN</span></h3>
+                    <h3 id="user-name" class="name"><span id="user-name-text"></span> • <span id="user-turn"
+                            class="active-turn">YOUR TURN</span></h3>
                     <h3 class="board-title">YOUR FLEET</h3>
                     <div id="player-board" class="board"></div>
                     <div class="player-board-buttons-wrapper" id="player-board-buttons-wrapper">
-                        <button id="generate-ships-placement">Generate ships placement</button>
-                        <button id="drag-and-drop-ships">Drag & drop ships</button>
+                        <button id="generate-ships-placement-btn">Generate ships placement</button>
+                        <button id="drag-and-drop-ships-btn">Drag & drop ships</button>
                     </div>
                 </div>
                 <div class="board-wrapper">
-                    <h3 id="comp-name" class="name"><span id="comp-name-text"></span> • <span id="comp-turn" class="inactive-turn">WAITING</span></h3>
+                    <h3 id="comp-name" class="name"><span id="comp-name-text"></span> • <span id="comp-turn"
+                            class="inactive-turn">WAITING</span></h3>
                     <h3 class="board-title">ENEMY WATERS</h3>
                     <div id="enemy-board" class="board"></div>
                 </div>
             </div>
+
+            <dialog id="winner-announcement">
+                <div class="winner-announcement-wrapper">
+                    <h4 id="result" class="result"></h4>
+                    <p id="result-subtext" class="result-subtext"></p>
+                    <div class="announcement-buttons-wrapper">
+                        <button id="play-again-btn">PLAY AGAIN</button>
+                        <button id="exit-btn">EXIT</button>
+                    </div>
+                </div>
+            </dialog>
         </div>
     </main>
 </body>
