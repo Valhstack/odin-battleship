@@ -199,8 +199,8 @@ const render = (function () {
         }
     };
 
-    const resetPlayersShips = () => {
-        const elems = document.getElementById('player-board').querySelectorAll('.ship-piece');
+    const reset = (elem, className) => {
+        const elems = document.getElementById(elem).querySelectorAll(className);
 
         elems.forEach(elem => elem.remove());
     };
@@ -229,7 +229,7 @@ const render = (function () {
         dialog.showModal();
     };
 
-    return { renderBoards, renderShips, renderMove, renderShipsEnemy, renderShipsPlayer, renderNames, renderTurn, resetPlayersShips, renderResults };
+    return { renderBoards, renderShips, renderMove, renderShipsEnemy, renderShipsPlayer, renderNames, renderTurn, reset, renderResults };
 })();
 
 const renderBoards = () => render.renderBoards();
@@ -239,7 +239,7 @@ const renderMove = (boardName, cellValue, row, col) => render.renderMove(boardNa
 const renderShipsOutline = (enemyBoard) => render.renderShipsEnemy(enemyBoard);
 const renderPlayerShipSunk = (playerBoard) => render.renderShipsPlayer(playerBoard);
 const renderTurn = (player) => render.renderTurn(player);
-const resetPlayersShips = () => render.resetPlayersShips();
+const reset = (elem, className) => render.reset(elem, className);
 const renderResults = (winner) => render.renderResults(winner);
 
-export { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, resetPlayersShips, renderResults };
+export { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, reset, renderResults };

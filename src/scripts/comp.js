@@ -1,5 +1,5 @@
 const comp = (function () {
-    const moves = [];
+    let moves = [];
     let targetQueue = [];
     let lockedDirection = null;
 
@@ -77,7 +77,13 @@ const comp = (function () {
         return { row, col, result: attackResult };
     };
 
-    return { move };
+    const reset = () => {
+        moves = [];
+        targetQueue = [];
+        lockedDirection = null;
+    };
+
+    return { move, reset };
 })();
 
 export { comp };

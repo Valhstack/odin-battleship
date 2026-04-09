@@ -1,7 +1,8 @@
 import { generatePlayerName, generateShipsPlacement } from "./helpers.js";
 import { Player } from "./player.js";
-import { game, userPlayer } from "./game.js";
-import { renderShips, resetPlayersShips } from "./render.js";
+import { game, userPlayer, compPlayer } from "./game.js";
+import { renderShips, reset } from "./render.js";
+import { comp } from './comp.js';
 
 const cards = document.getElementsByClassName('card');
 const startGameBtns = document.getElementsByClassName('start-game-btn');
@@ -65,11 +66,24 @@ const listeners = () => {
 
     document.getElementById('generate-ships-placement-btn').addEventListener('click', () => {
         userPlayer.board.resetBoard();
-        resetPlayersShips();
+        reset('player-board', '.ship-piece');
 
         generateShipsPlacement(userPlayer.board);
         renderShips(userPlayer.board);
     });
+
+    document.getElementById('play-again-btn').addEventListener('click', () => {
+        userPlayer.board.resetBoard();
+        compPlayer.board.resetBoard();
+        comp.reset();
+
+        document.getElementById('winner-announcement').close();
+
+        reset('player-board', '.board-cell');
+        reset('enemy-board', '.board-cell');
+
+        game.start();
+    })
 }
 
 export { listeners, attachListeners, cellHandler }
