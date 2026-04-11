@@ -83,7 +83,25 @@ const listeners = () => {
         reset('enemy-board', '.board-cell');
 
         game.start();
-    })
+    });
+
+    document.getElementById('exit-btn').addEventListener('click', () => {
+        userPlayer.board.resetBoard();
+        compPlayer.board.resetBoard();
+        comp.reset();
+
+        document.getElementById('winner-announcement').close();
+
+        reset('player-board', '.board-cell');
+        reset('enemy-board', '.board-cell');
+
+        document.getElementById('boards-screen').classList.add('inactive');
+
+        userPlayer.name = undefined;
+        compPlayer.name = undefined;
+
+        document.getElementById('start-screen').classList.remove('inactive');
+    });
 }
 
 export { listeners, attachListeners, cellHandler }

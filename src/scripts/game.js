@@ -7,7 +7,7 @@ let userPlayer, compPlayer;
 
 const game = (function () {
     const start = (playerName, compName) => {
-        if (!userPlayer || !compPlayer) {
+        if (!userPlayer?.name || !compPlayer?.name) {
             userPlayer = new Player(playerName);
             compPlayer = new Player(compName);
         }
