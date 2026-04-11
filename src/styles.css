@@ -570,6 +570,17 @@ input[type='text']:hover {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
+.drag-and-drop-ships-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.ship {
+    display: flex;
+
+    scale: 0.8;
+}
+
 .inactive {
     display: none;
 }

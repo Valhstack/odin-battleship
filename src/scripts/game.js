@@ -62,9 +62,7 @@ const game = (function () {
 
             }
         }
-        catch (e) {
-            //show dialog that can't make this move
-        }
+        catch (e) { }
     };
 
     const sleep = (ms) => new Promise(res => setTimeout(res, ms));

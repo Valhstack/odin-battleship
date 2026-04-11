@@ -6,12 +6,29 @@ import { comp } from './comp.js';
 
 const cards = document.getElementsByClassName('card');
 const startGameBtns = document.getElementsByClassName('start-game-btn');
+let elemIndex;
 
-const attachListeners = (items, handler) => {
+const attachListeners = (items, event, handler) => {
     for (let item of items) {
-        item.addEventListener("click", handler);
+        item.addEventListener(event, handler);
     }
 };
+
+function onPointerDownHandler(e) {
+    const children = document.getElementById(e.target.closest('.ship').id).querySelectorAll('.ship-piece');
+    console.log(children);
+    const elem = e.target;
+    console.log('elem from the hadler', e.target);
+    const index = [...children].indexOf(elem);
+    console.log(index);
+
+    elemIndex = index;
+}
+
+function shipHandler(e) {
+    const id = e.target.id;
+    e.dataTransfer.setData('text/plain', JSON.stringify({ id: id, index: elemIndex }));
+}
 
 async function cellHandler(e) {
     const row = e.target.dataset.row;
@@ -101,6 +118,33 @@ const listeners = () => {
         compPlayer.name = undefined;
 
         document.getElementById('start-screen').classList.remove('inactive');
+    });
+
+    document.getElementById('drag-and-drop-ships-btn').addEventListener('click', () => {
+        userPlayer.board.resetBoard();
+        reset('player-board', '.ship-piece');
+
+        document.getElementById('drag-and-drop-ships-wrapper').classList.remove('inactive');
+
+        const items = document.getElementsByClassName('ship');
+        attachListeners(items, 'dragstart', shipHandler);
+        attachListeners(items, 'pointerdown', onPointerDownHandler);
+    });
+
+    document.getElementById('player-board').addEventListener('dragover', (e) => {
+        e.preventDefault();
+    });
+    document.getElementById('player-board').addEventListener('drop', (e) => {
+        e.preventDefault();
+
+        const raw = e.dataTransfer.getData('text/plain');
+        const data = JSON.parse(raw);
+        console.log(data.id, data.index);
+        const elem = document.getElementById(data.id);
+        console.log(elem);
+        console.log(e.target.closest('.board-cell').dataset.row);
+        console.log(e.target.closest('.board-cell').dataset.col);
+        //document.getElementById(e.target.id).appendChild(elem);
     });
 }
 

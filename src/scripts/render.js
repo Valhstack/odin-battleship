@@ -12,7 +12,7 @@ const render = (function () {
 
         generateBoard(playerBoard);
         generateBoard(enemyBoard);
-        attachListeners(enemyBoard.childNodes, cellHandler);
+        attachListeners(enemyBoard.childNodes, 'click', cellHandler);
     };
 
     const renderShips = (playerBoard) => {
