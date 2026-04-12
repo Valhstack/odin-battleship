@@ -69,7 +69,7 @@ class Board {
 
         return true;
     }
-
+    
     receiveAttack(x, y) {
         if (this.#board[x][y] === '1') {
             for (let ship of this.#ships) {

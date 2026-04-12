@@ -45,6 +45,38 @@
     }
 }
 
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-4px);
+    }
+
+    50% {
+        transform: translateX(4px);
+    }
+
+    75% {
+        transform: translateX(-2px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes invalid-flash {
+    0% {
+        background: rgba(224, 78, 78, 0.4);
+    }
+
+    100% {
+        background: rgba(224, 78, 78, 0);
+    }
+}
+
 p,
 h1,
 h3,
@@ -541,6 +573,7 @@ input[type='text']:hover {
 .announcement-buttons-wrapper {
     display: flex;
     gap: 20px;
+    margin-top: 24px;
 }
 
 #play-again-btn {
@@ -573,12 +606,38 @@ input[type='text']:hover {
 .drag-and-drop-ships-wrapper {
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    gap: 16px;
+
+    height: 120px;
 }
 
 .ship {
-    display: flex;
-
     scale: 0.8;
+}
+
+.ship[data-direction='horizontal'] {
+    display: flex;
+}
+
+.ship[data-direction='vertical'] {
+    display: flex;
+    flex-direction: column;
+}
+
+.ship.inactive {
+    display: none;
+}
+
+.invalid-shake {
+    animation: shake 150ms ease;
+}
+
+.board-cell.invalid {
+    background: rgba(224, 78, 78, 0.25);
+    border: 1px solid #E04E4E;
+    animation: invalid-flash 150ms ease;
 }
 
 .inactive {

@@ -54,7 +54,7 @@ const getShipEndpoint = (ships, i, j) => {
 }
 
 const generateShipsPlacement = (board) => {
-    let coord1, coord2, coord3, direction, start, finish;
+    let coord1, coord2, coord3, direction;
 
     while (board.getNumOfShips() < 10) {
         let isPlaced = false;
