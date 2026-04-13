@@ -170,7 +170,7 @@ body {
     color: #9BB7C4;
 }
 
-input[type='text'] {
+input {
     height: 40px;
     width: 100%;
 
@@ -186,17 +186,17 @@ input[type='text'] {
     margin-top: 6px;
 }
 
-input[type='text']::placeholder {
+input::placeholder {
     color: #A8C0CC;
 }
 
-input[type='text']:focus {
+input:focus {
     outline: none;
     border-color: #3FA7C4;
     box-shadow: 0 0 8px rgba(63, 167, 196, 0.25);
 }
 
-input[type='text']:hover {
+input:hover {
     outline: none;
     border-color: #2A6F89;
 }
