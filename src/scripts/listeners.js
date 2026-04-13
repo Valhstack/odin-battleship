@@ -98,7 +98,7 @@ const listeners = () => {
 
             if (elemID === 'start-game-comp-btn') {
                 const input = document.getElementById('player-name-comp');
-                playerName = input === '' ? input.value : generatePlayerName();
+                playerName = input.value !== '' ? input.value : generatePlayerName();
 
                 game.start(playerName, generatePlayerName());
             }
