@@ -4,6 +4,7 @@ import { game, userPlayer, compPlayer } from "./game.js";
 import { renderShips, reset, renderShipsDragAndDrop } from "./render.js";
 import { comp } from './comp.js';
 import { shipCoords } from "./ship.js";
+import { Peer } from 'peerjs';
 
 const cards = document.getElementsByClassName('card');
 const startGameBtns = document.getElementsByClassName('start-game-btn');
@@ -104,8 +105,83 @@ const listeners = () => {
             }
             else if (elemID === 'start-game-online-btn') {
                 const input = document.getElementById('player-name-online');
-                playerName = input === '' ? input.value : generatePlayerName();
+                playerName = input.value !== '' ? input.value : generatePlayerName();
                 const userPlayer = new Player(playerName);
+
+                // Add another form if a player wants to start connection or if they want to connect to someone and provide an ID in this case
+
+                // 1. Create peer
+                const peer = new Peer({
+                    config: {
+                        iceServers: [
+                            { urls: "stun:stun.l.google.com:19302" },
+                            {
+                                urls: "turn:openrelay.metered.ca:80",
+                                username: "openrelayproject",
+                                credential: "openrelayproject"
+                            }
+                        ]
+                    }
+                });
+                let connection = null;
+
+                // 2. Always listen for incoming connections
+                peer.on("connection", (conn) => {
+                    console.log("Incoming connection");
+
+                    connection = conn;
+                    setupConnection(conn);
+                });
+
+                // 3. When peer is ready
+                peer.on("open", (id) => {
+                    console.log("My peer ID:", id);
+
+                    // Save your ID (optional, depends on your app)
+                    localStorage.setItem(playerName, id);
+
+                    // Try to connect to another peer
+                    const otherId = localStorage.getItem("Val");
+
+                    // IMPORTANT: only connect if it's a different ID
+                    if (otherId && otherId !== id) {
+                        console.log("Connecting to:", otherId);
+
+                        const conn = peer.connect(otherId);
+                        connection = conn;
+
+                        setupConnection(conn);
+                    } else {
+                        console.log("Waiting for incoming connection...");
+                    }
+                });
+
+                // 4. Shared connection handler (USED FOR BOTH SIDES)
+                function setupConnection(conn) {
+                    conn.on("open", () => {
+                        console.log("Connected!");
+
+                        // test message
+                        conn.send("Hello!");
+                    });
+
+                    conn.on("data", (data) => {
+                        console.log("Received:", data);
+                    });
+
+                    conn.on("close", () => {
+                        console.log("Connection closed");
+                    });
+
+                    conn.on("error", (err) => {
+                        console.error("Connection error:", err);
+                    });
+                }
+
+                // 5. Peer-level errors
+                peer.on("error", (err) => {
+                    console.error("Peer error:", err);
+                });
             }
         })
     }
