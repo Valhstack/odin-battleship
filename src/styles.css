@@ -640,6 +640,10 @@ input[type='text']:hover {
     animation: invalid-flash 150ms ease;
 }
 
+.resize{
+    height: auto;
+}
+
 .inactive {
     display: none;
 }

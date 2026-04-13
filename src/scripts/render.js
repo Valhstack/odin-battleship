@@ -200,9 +200,7 @@ const render = (function () {
     };
 
     const reset = (elem, className) => {
-        const elems = document.getElementById(elem).querySelectorAll(className);
-
-        elems.forEach(elem => elem.remove());
+        document.getElementById(elem)?.querySelectorAll(className).forEach(el => el.remove());
     };
 
     const renderResults = (winner) => {
@@ -210,6 +208,9 @@ const render = (function () {
         const pResultSubtext = document.getElementById('result-subtext');
 
         if (winner === 'user') {
+            h4Result.classList.remove('defeat');
+            pResultSubtext.classList.remove('defeat');
+
             h4Result.classList.add('victory');
             pResultSubtext.classList.add('victory');
 
@@ -217,6 +218,9 @@ const render = (function () {
             pResultSubtext.textContent = VICTORY_MESSAGES[Math.floor(Math.random() * VICTORY_MESSAGES.length)];
         }
         else {
+            h4Result.classList.remove('victory');
+            pResultSubtext.classList.remove('victory');
+
             h4Result.classList.add('defeat');
             pResultSubtext.classList.add('defeat');
 
@@ -229,7 +233,82 @@ const render = (function () {
         dialog.showModal();
     };
 
-    return { renderBoards, renderShips, renderMove, renderShipsEnemy, renderShipsPlayer, renderNames, renderTurn, reset, renderResults };
+    const renderDragAndDropShips = () => {
+        const dragAndDropWrapper = document.getElementById('drag-and-drop-ships-wrapper');
+
+        reset('drag-and-drop-ships-wrapper', '.ship');
+
+        dragAndDropWrapper.appendChild(generateShipPieces(4, 1));
+        dragAndDropWrapper.appendChild(generateShipPieces(3, 1));
+        dragAndDropWrapper.appendChild(generateShipPieces(3, 2, 'inactive'));
+        dragAndDropWrapper.appendChild(generateShipPieces(2, 1));
+        dragAndDropWrapper.appendChild(generateShipPieces(2, 2, 'inactive'));
+        dragAndDropWrapper.appendChild(generateShipPieces(2, 3, 'inactive'));
+        dragAndDropWrapper.appendChild(generateShipPieces(1, 1));
+        dragAndDropWrapper.appendChild(generateShipPieces(1, 2, 'inactive'));
+        dragAndDropWrapper.appendChild(generateShipPieces(1, 3, 'inactive'));
+        dragAndDropWrapper.appendChild(generateShipPieces(1, 4, 'inactive'));
+    };
+
+    const generateShipPieces = (length, index, extraClass) => {
+        const divWrapper = document.createElement('div');
+        divWrapper.classList.add('ship');
+        divWrapper.classList.add(`ship-length-${length}`);
+        if (extraClass !== undefined) {
+            divWrapper.classList.add(extraClass);
+        }
+        divWrapper.id = `ship-length-${length}-${index}`;
+        divWrapper.dataset.length = length;
+        divWrapper.dataset.index = index;
+        divWrapper.dataset.direction = 'horizontal';
+        divWrapper.setAttribute('draggable', 'true');
+
+        const divShipPieceStart = document.createElement('div');
+        const divShipPieceFinish = document.createElement('div');
+        const divShipMiddlePiece = document.createElement('div');
+
+        divShipPieceStart.classList.add('ship-piece');
+        divShipPieceStart.classList.add('ship-piece-start-horizontal');
+
+        divShipMiddlePiece.classList.add('ship-piece');
+        divShipMiddlePiece.classList.add('ship-piece-middle-horizontal');
+
+        divShipPieceFinish.classList.add('ship-piece');
+        divShipPieceFinish.classList.add('ship-piece-finish-horizontal');
+
+        switch (length) {
+            case 1:
+                const divShipPiece = document.createElement('div');
+                divShipPiece.classList.add('ship-piece');
+                divShipPiece.classList.add('ship-piece-single-none');
+
+                divWrapper.appendChild(divShipPiece);
+
+                return divWrapper;
+            case 2:
+                divWrapper.appendChild(divShipPieceStart);
+                divWrapper.appendChild(divShipPieceFinish);
+
+                return divWrapper;
+            case 3:
+                divWrapper.appendChild(divShipPieceStart);
+                divWrapper.appendChild(divShipMiddlePiece);
+                divWrapper.appendChild(divShipPieceFinish);
+
+                return divWrapper;
+            case 4:
+                const divShipPieceMiddle2 = divShipMiddlePiece.cloneNode(true);
+
+                divWrapper.appendChild(divShipPieceStart);
+                divWrapper.appendChild(divShipMiddlePiece);
+                divWrapper.appendChild(divShipPieceMiddle2);
+                divWrapper.appendChild(divShipPieceFinish);
+
+                return divWrapper;
+        }
+    };
+
+    return { renderBoards, renderShips, renderMove, renderShipsEnemy, renderShipsPlayer, renderNames, renderTurn, reset, renderResults, renderDragAndDropShips };
 })();
 
 const renderBoards = () => render.renderBoards();
@@ -241,5 +320,6 @@ const renderPlayerShipSunk = (playerBoard) => render.renderShipsPlayer(playerBoa
 const renderTurn = (player) => render.renderTurn(player);
 const reset = (elem, className) => render.reset(elem, className);
 const renderResults = (winner) => render.renderResults(winner);
+const renderShipsDragAndDrop = () => render.renderDragAndDropShips();
 
-export { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, reset, renderResults };
+export { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, reset, renderResults, renderShipsDragAndDrop };

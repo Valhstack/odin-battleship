@@ -1,7 +1,7 @@
 import { generatePlayerName, generateShipsPlacement } from "./helpers.js";
 import { Player } from "./player.js";
 import { game, userPlayer, compPlayer } from "./game.js";
-import { renderShips, reset } from "./render.js";
+import { renderShips, reset, renderShipsDragAndDrop } from "./render.js";
 import { comp } from './comp.js';
 import { shipCoords } from "./ship.js";
 
@@ -154,6 +154,8 @@ const listeners = () => {
         reset('player-board', '.ship-piece');
 
         document.getElementById('drag-and-drop-ships-wrapper').classList.remove('inactive');
+        document.getElementById('drag-and-drop-ships-wrapper').classList.remove('resize');
+        renderShipsDragAndDrop();
 
         const items = document.getElementsByClassName('ship');
         attachListeners(items, 'dragstart', shipHandler);
@@ -240,6 +242,8 @@ const listeners = () => {
 
             console.log(row, col, start, finish);
         }
+
+        document.getElementById('drag-and-drop-ships-wrapper').classList.add('resize');
     });
 }
 
