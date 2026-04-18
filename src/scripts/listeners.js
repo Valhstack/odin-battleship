@@ -110,6 +110,8 @@ const listeners = () => {
 
                 // Add another form if a player wants to start connection or if they want to connect to someone and provide an ID in this case
 
+                document.getElementById('connection-form-dialog').showModal();
+
                 // 1. Create peer
                 const peer = new Peer({
                     config: {
@@ -133,29 +135,43 @@ const listeners = () => {
                     setupConnection(conn);
                 });
 
-                // 3. When peer is ready
+                let peerId;
+
                 peer.on("open", (id) => {
                     console.log("My peer ID:", id);
 
-                    // Save your ID (optional, depends on your app)
-                    localStorage.setItem(playerName, id);
-
-                    // Try to connect to another peer
-                    const otherId = localStorage.getItem("Val");
-
-                    // IMPORTANT: only connect if it's a different ID
-                    if (otherId && otherId !== id) {
-                        console.log("Connecting to:", otherId);
-
-                        const conn = peer.connect(otherId);
-                        connection = conn;
-
-                        setupConnection(conn);
-                    } else {
-                        console.log("Waiting for incoming connection...");
-                    }
+                    peerId = id;
                 });
 
+
+                document.getElementById('start-connection-btn').addEventListener('click', () => {
+                    document.getElementById('host-player-id').classList.remove('inactive');
+                    document.getElementById('host-player-id').textContent = peerId;
+                });
+
+                document.getElementById('connect-to-friend-btn').addEventListener('click', () => {
+                    document.getElementById('connection-form-wrapper').classList.add('inactive');
+                    document.getElementById('connect-to-friend-form-wrapper').classList.remove('inactive');
+                });
+
+                document.getElementById('set-connection-btn').addEventListener('click', () => {
+                    const form = document.getElementById('connect-to-friend-form');
+                    const formData = new FormData(form);
+
+                    const friendId = formData.get("friend-id");
+
+                    if (!friendId) {
+                        console.log("No friend ID provided");
+                        return;
+                    }
+
+                    const conn = peer.connect(friendId);
+                    connection = conn;
+
+                    setupConnection(conn);
+                })
+
+                // 3. When peer is ready
                 // 4. Shared connection handler (USED FOR BOTH SIDES)
                 function setupConnection(conn) {
                     conn.on("open", () => {

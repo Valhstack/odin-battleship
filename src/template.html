@@ -71,6 +71,23 @@
                     </div>
                 </div>
             </dialog>
+
+            <dialog id="connection-form-dialog">
+                <div id="connection-form-wrapper" class="connection-form-wrapper">
+                    <p>Would you like to start connection or connect to a friend?</p>
+                    <button id="start-connection-btn">Start connection</button>
+                    <button id="connect-to-friend-btn">Connect to a friend</button>
+
+                    <p id="host-player-id" class="inactive"></p>
+                </div>
+                <div id="connect-to-friend-form-wrapper" class="connect-to-friend-form-wrapper inactive">
+                    <form id="connect-to-friend-form">
+                        <label for="friend-id">Friend's ID: </label><br>
+                        <input type="text" id="friend-id" name="friend-id"><br>
+                        <button id="set-connection-btn">Connect</button>
+                    </form>
+                </div>
+            </dialog>
         </div>
     </main>
 </body>
