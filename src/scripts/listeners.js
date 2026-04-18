@@ -154,7 +154,9 @@ const listeners = () => {
                     document.getElementById('connect-to-friend-form-wrapper').classList.remove('inactive');
                 });
 
-                document.getElementById('set-connection-btn').addEventListener('click', () => {
+                document.getElementById('set-connection-btn').addEventListener('click', (e) => {
+                    e.preventDefault();
+
                     const form = document.getElementById('connect-to-friend-form');
                     const formData = new FormData(form);
 
