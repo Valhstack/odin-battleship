@@ -5,6 +5,7 @@ import { renderShips, reset, renderShipsDragAndDrop } from "./render.js";
 import { comp } from './comp.js';
 import { shipCoords } from "./ship.js";
 import { Peer } from 'peerjs';
+import { TURN_USERNAME, TURN_CREDENTIALS } from "../config.js";
 
 const cards = document.getElementsByClassName('card');
 const startGameBtns = document.getElementsByClassName('start-game-btn');
@@ -116,7 +117,29 @@ const listeners = () => {
                 const peer = new Peer({
                     config: {
                         iceServers: [
-                            { urls: "stun:stun.l.google.com:19302" }
+                            {
+                                urls: "stun:stun.relay.metered.ca:80",
+                            },
+                            {
+                                urls: "turn:global.relay.metered.ca:80",
+                                username: TURN_USERNAME,
+                                credential: TURN_CREDENTIALS,
+                            },
+                            {
+                                urls: "turn:global.relay.metered.ca:80?transport=tcp",
+                                username: TURN_USERNAME,
+                                credential: TURN_CREDENTIALS,
+                            },
+                            {
+                                urls: "turn:global.relay.metered.ca:443",
+                                username: TURN_USERNAME,
+                                credential: TURN_CREDENTIALS,
+                            },
+                            {
+                                urls: "turns:global.relay.metered.ca:443?transport=tcp",
+                                username: TURN_USERNAME,
+                                credential: TURN_CREDENTIALS,
+                            },
                         ]
                     }
                 });
