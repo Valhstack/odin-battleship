@@ -16,12 +16,31 @@ const game = (function () {
         renderNames(userPlayer.name, compPlayer.name);
 
         const boardPlayer = userPlayer.board;
+        console.log(boardPlayer);
         generateShipsPlacement(boardPlayer);
 
         const boardComp = compPlayer.board;
         generateShipsPlacement(boardComp);
         renderShips(boardPlayer);
     };
+
+    const startVsFriend = (player, enemy, conn) => {
+        renderBoards();
+        renderNames(player.name, enemy.name);
+
+        userPlayer = player;
+        compPlayer = enemy;
+
+        const boardPlayer = userPlayer.board;
+        generateShipsPlacement(boardPlayer);
+        renderShips(boardPlayer);
+        console.log(boardPlayer);
+
+        conn.send({
+            type: "board",
+            board: boardPlayer
+        });
+    }
 
     const move = async (row, col) => {
         const compBoardBefore = compPlayer.board.getBoard().map(row => [...row]);
@@ -59,7 +78,6 @@ const game = (function () {
                     renderResults('comp');
                     compPlayer.addWin();
                 }
-
             }
         }
         catch (e) { }
@@ -105,7 +123,7 @@ const game = (function () {
         } while (result === 'hit' || result === 'sunk');
     };
 
-    return { start, move };
+    return { start, move, startVsFriend };
 })();
 
 export { game, userPlayer, compPlayer };

@@ -106,14 +106,11 @@ const listeners = () => {
             }
             else if (elemID === 'start-game-online-btn') {
                 const input = document.getElementById('player-name-online');
-                playerName = input.value !== '' ? input.value : generatePlayerName();
-                const userPlayer = new Player(playerName);
 
                 // Add another form if a player wants to start connection or if they want to connect to someone and provide an ID in this case
 
                 document.getElementById('connection-form-dialog').showModal();
 
-                // 1. Create peer
                 const peer = new Peer({
                     config: {
                         iceServers: [
@@ -126,26 +123,15 @@ const listeners = () => {
                                 credential: TURN_CREDENTIALS,
                             },
                             {
-                                urls: "turn:global.relay.metered.ca:80?transport=tcp",
-                                username: TURN_USERNAME,
-                                credential: TURN_CREDENTIALS,
-                            },
-                            {
                                 urls: "turn:global.relay.metered.ca:443",
                                 username: TURN_USERNAME,
                                 credential: TURN_CREDENTIALS,
-                            },
-                            {
-                                urls: "turns:global.relay.metered.ca:443?transport=tcp",
-                                username: TURN_USERNAME,
-                                credential: TURN_CREDENTIALS,
-                            },
+                            }
                         ]
                     }
                 });
                 let connection = null;
 
-                // 2. Always listen for incoming connections
                 peer.on("connection", (conn) => {
                     console.log("Incoming connection");
 
@@ -164,7 +150,8 @@ const listeners = () => {
 
                 document.getElementById('start-connection-btn').addEventListener('click', () => {
                     document.getElementById('host-player-id').classList.remove('inactive');
-                    document.getElementById('host-player-id').textContent = peerId;
+                    document.getElementById('connection-wrapper').classList.add('inactive');
+                    document.getElementById('host-player-id').textContent = 'Share this ID with the friend to connect: ' + peerId;
                 });
 
                 document.getElementById('connect-to-friend-btn').addEventListener('click', () => {
@@ -189,20 +176,35 @@ const listeners = () => {
                     connection = conn;
 
                     setupConnection(conn);
-                })
+                });
 
-                // 3. When peer is ready
-                // 4. Shared connection handler (USED FOR BOTH SIDES)
+                let player;
+
                 function setupConnection(conn) {
                     conn.on("open", () => {
                         console.log("Connected!");
 
-                        // test message
-                        conn.send("Hello!");
+                        playerName = input.value !== '' ? input.value : generatePlayerName();
+                        player = new Player(playerName);
+
+                        conn.send({
+                            type: 'enemy',
+                            enemy: player
+                        });
+                        console.log(player.name);
                     });
 
                     conn.on("data", (data) => {
-                        console.log("Received:", data);
+                        if (data.type === 'enemy') {
+                            console.log("Received: ", data.enemy, ' typeof ', typeof data);
+
+                            document.getElementById('connection-form-dialog').close();
+                            game.startVsFriend(player, data, conn);
+                        }
+                        if (data.type === "board") {
+                            console.log("Received enemy board:", data.board);
+                            const boardComp = data.board;
+                        }
                     });
 
                     conn.on("close", () => {
@@ -214,7 +216,6 @@ const listeners = () => {
                     });
                 }
 
-                // 5. Peer-level errors
                 peer.on("error", (err) => {
                     console.error("Peer error:", err);
                 });
