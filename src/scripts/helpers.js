@@ -1,5 +1,6 @@
 import { characters, adjectives } from "./characters.js";
 import { shipCoords } from "./ship.js";
+import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, renderResults } from "./render.js";
 
 const generatePlayerName = () => {
     const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
@@ -120,4 +121,21 @@ const attemptPlacement = (coord1, coord2, coord3, direction, board) => {
     return false;
 }
 
-export { generatePlayerName, getShipEndpoint, generateShipsPlacement }
+const processAttack = (player, attackResult, boardName, valuesBefore, valuesAfter, row, col) => {
+    if (attackResult === 'hit' || attackResult === 'miss') {
+        renderMove(boardName, valuesAfter[row][col], row, col);
+    }
+    else {
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
+                if (valuesBefore[i][j] !== valuesAfter[i][j]) {
+                    renderMove(boardName, valuesAfter[i][j], i, j);
+                }
+            }
+        }
+
+        renderShipsOutline(player.board);
+    }
+}
+
+export { generatePlayerName, getShipEndpoint, generateShipsPlacement, processAttack }

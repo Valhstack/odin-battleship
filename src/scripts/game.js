@@ -3,40 +3,44 @@ import { Player } from "./player.js";
 import { comp } from './comp.js';
 import { generateShipsPlacement } from "./helpers.js";
 
-let userPlayer, compPlayer;
+let userPlayer, enemyPlayer;
 
 const game = (function () {
-    let mode;
+    let mode, connection, turn;
 
     const start = (player, enemy, conn) => {
         if (mode === 'vsComp') {
             userPlayer = player;
-            compPlayer = enemy;
+            enemyPlayer = enemy;
 
             renderBoards();
-            renderNames(userPlayer.name, compPlayer.name);
+            renderNames(userPlayer.name, enemyPlayer.name);
 
             const boardPlayer = userPlayer.board;
             console.log(boardPlayer);
             generateShipsPlacement(boardPlayer);
 
-            const boardComp = compPlayer.board;
+            const boardComp = enemyPlayer.board;
             generateShipsPlacement(boardComp);
             renderShips(boardPlayer);
         }
 
         if (mode === 'vsFriend') {
             userPlayer = player;
-            compPlayer = enemy;
+            enemyPlayer = enemy;
 
             renderBoards();
-            renderNames(userPlayer.name, compPlayer.name);
+            renderNames(userPlayer.name, enemyPlayer.name);
 
             const boardPlayer = userPlayer.board;
             generateShipsPlacement(boardPlayer);
             renderShips(boardPlayer);
             console.log(boardPlayer);
+
+            connection = conn;
         }
+
+        console.log('Player 1: ', userPlayer, ' Enemy: ', enemyPlayer);
     };
 
     const setMode = (currentMode) => {
@@ -44,27 +48,39 @@ const game = (function () {
     }
 
     const move = async (row, col) => {
-        const compBoardBefore = compPlayer.board.getBoard().map(row => [...row]);
+        const enemyBoardBefore = enemyPlayer.board.getBoard().map(row => [...row]);
 
         try {
-            const attackResult = compPlayer.board.receiveAttack(row, col);
-            const compBoardAfter = compPlayer.board.getBoard();
+            if (mode === 'vsFriend') {
+                connection.send({
+                    type: 'move',
+                    position: {
+                        row,
+                        col
+                    }
+                });
+
+                return;
+            }
+
+            const attackResult = enemyPlayer.board.receiveAttack(row, col);
+            const enemyBoardAfter = enemyPlayer.board.getBoard();
 
             if (attackResult === 'hit' || attackResult === 'miss') {
-                renderMove('enemy-board', compBoardAfter[row][col], row, col);
+                renderMove('enemy-board', enemyBoardAfter[row][col], row, col);
             }
             else {
                 for (let i = 0; i < 10; i++) {
                     for (let j = 0; j < 10; j++) {
-                        if (compBoardBefore[i][j] !== compBoardAfter[i][j]) {
-                            renderMove('enemy-board', compBoardAfter[i][j], i, j);
+                        if (enemyBoardBefore[i][j] !== enemyBoardAfter[i][j]) {
+                            renderMove('enemy-board', enemyBoardAfter[i][j], i, j);
                         }
                     }
                 }
 
-                renderShipsOutline(compPlayer.board);
+                renderShipsOutline(enemyPlayer.board);
 
-                if (!compPlayer.board.areShipsLeft()) {
+                if (!enemyPlayer.board.areShipsLeft()) {
                     renderResults('user');
                     userPlayer.addWin();
                 }
@@ -77,7 +93,7 @@ const game = (function () {
 
                 if (!userPlayer.board.areShipsLeft()) {
                     renderResults('comp');
-                    compPlayer.addWin();
+                    enemyPlayer.addWin();
                 }
             }
         }
@@ -124,7 +140,7 @@ const game = (function () {
         } while (result === 'hit' || result === 'sunk');
     };
 
-    return { start, move, setMode };
+    return { start, move, setMode, turn };
 })();
 
-export { game, userPlayer, compPlayer };
+export { game, userPlayer, enemyPlayer };

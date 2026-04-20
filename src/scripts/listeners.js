@@ -1,7 +1,7 @@
-import { generatePlayerName, generateShipsPlacement } from "./helpers.js";
+import { generatePlayerName, generateShipsPlacement, processAttack } from "./helpers.js";
 import { Player } from "./player.js";
-import { game, userPlayer, compPlayer } from "./game.js";
-import { renderShips, reset, renderShipsDragAndDrop } from "./render.js";
+import { game, userPlayer, enemyPlayer } from "./game.js";
+import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, renderResults } from "./render.js";
 import { comp } from './comp.js';
 import { shipCoords } from "./ship.js";
 import { Peer } from 'peerjs';
@@ -107,7 +107,7 @@ const listeners = () => {
                 let user, compUser;
 
                 playerName = input.value !== '' ? input.value : generatePlayerName();
-                if (!userPlayer?.name || !compPlayer?.name) {
+                if (!userPlayer?.name || !enemyPlayer?.name) {
                     user = new Player(playerName);
                     compUser = new Player(generatePlayerName());
                 }
@@ -195,11 +195,15 @@ const listeners = () => {
                         console.log("Connected!");
 
                         playerName = input.value !== '' ? input.value : generatePlayerName();
-                        player = new Player(playerName);
+                        player = new Player(playerName, peer.id);
 
                         conn.send({
                             type: 'enemy',
-                            enemy: player
+                            enemy: {
+                                name: player.name,
+                                peerId: player.getPeerId()
+                            }
+
                         });
                         console.log(player.name);
                     });
@@ -208,9 +212,50 @@ const listeners = () => {
                         if (data.type === 'enemy') {
                             console.log("Received: ", data.enemy, ' typeof ', typeof data);
 
+                            const enemy = new Player(data.enemy.name, data.enemy.peerId);
+
                             document.getElementById('connection-form-dialog').close();
                             game.setMode('vsFriend');
-                            game.start(player, data.enemy, conn);
+                            game.start(player, enemy, conn);
+                        }
+
+                        if (data.type === 'move') {
+                            const playerBoardBefore = userPlayer.board.getBoard().map(row => [...row]);
+                            const attackResult = userPlayer.board.receiveAttack(data.position.row, data.position.col);
+                            const playerBoardAfter = userPlayer.board.getBoard();
+
+                            processAttack(userPlayer, attackResult, 'player-board', playerBoardBefore, playerBoardAfter, data.position.row, data.position.col);
+
+                            renderShipsOutline(userPlayer.board);
+
+                            conn.send({
+                                type: 'result',
+                                position: {
+                                    row: data.position.row,
+                                    col: data.position.col
+                                },
+                                result: attackResult
+                            })
+
+                            /*if (!userPlayer.board.areShipsLeft()) {
+                                renderResults('user');
+                                enemyPlayer.addWin();
+                            }*/
+                        }
+
+                        if (data.type === 'result') {
+                            const playerBoardBefore = enemyPlayer.board.getBoard().map(row => [...row]);
+                            const attackResult = enemyPlayer.board.receiveAttack(data.position.row, data.position.col);
+                            const playerBoardAfter = enemyPlayer.board.getBoard();
+
+                            processAttack(enemyPlayer, attackResult, 'enemy-board', playerBoardBefore, playerBoardAfter, data.position.row, data.position.col);
+
+                            renderShipsOutline(enemyPlayer.board);
+
+                            /*if (!enemyPlayer.board.areShipsLeft()) {
+                                renderResults('user');
+                                userPlayer.addWin();
+                            }*/
                         }
                     });
 
@@ -240,7 +285,7 @@ const listeners = () => {
 
     document.getElementById('play-again-btn').addEventListener('click', () => {
         userPlayer.board.resetBoard();
-        compPlayer.board.resetBoard();
+        enemyPlayer.board.resetBoard();
         comp.reset();
 
         document.getElementById('winner-announcement').close();
@@ -248,12 +293,12 @@ const listeners = () => {
         reset('player-board', '.board-cell');
         reset('enemy-board', '.board-cell');
 
-        game.start(userPlayer, compPlayer);
+        game.start(userPlayer, enemyPlayer);
     });
 
     document.getElementById('exit-btn').addEventListener('click', () => {
         userPlayer.board.resetBoard();
-        compPlayer.board.resetBoard();
+        enemyPlayer.board.resetBoard();
         comp.reset();
 
         document.getElementById('winner-announcement').close();
@@ -264,7 +309,7 @@ const listeners = () => {
         document.getElementById('boards-screen').classList.add('inactive');
 
         userPlayer.name = undefined;
-        compPlayer.name = undefined;
+        enemyPlayer.name = undefined;
 
         document.getElementById('start-screen').classList.remove('inactive');
     });

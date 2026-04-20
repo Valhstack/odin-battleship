@@ -2,10 +2,13 @@ import { Board } from "./gameBoard.js";
 
 export class Player {
     #wins = 0;
+    #isTurn = false;
+    #peerId;
 
-    constructor(name) {
+    constructor(name, peerId) {
         this.name = name;
         this.board = new Board();
+        this.#peerId = peerId;
     }
 
     addWin() {
@@ -18,5 +21,17 @@ export class Player {
 
     resetWins() {
         this.#wins = 0;
+    }
+
+    setTurn(turn) {
+        this.#isTurn = turn;
+    }
+
+    getTurn() {
+        return this.#isTurn;
+    }
+
+    getPeerId() {
+        return this.#peerId;
     }
 }
