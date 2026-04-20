@@ -6,40 +6,41 @@ import { generateShipsPlacement } from "./helpers.js";
 let userPlayer, compPlayer;
 
 const game = (function () {
-    const start = (playerName, compName) => {
-        if (!userPlayer?.name || !compPlayer?.name) {
-            userPlayer = new Player(playerName);
-            compPlayer = new Player(compName);
+    let mode;
+
+    const start = (player, enemy, conn) => {
+        if (mode === 'vsComp') {
+            userPlayer = player;
+            compPlayer = enemy;
+
+            renderBoards();
+            renderNames(userPlayer.name, compPlayer.name);
+
+            const boardPlayer = userPlayer.board;
+            console.log(boardPlayer);
+            generateShipsPlacement(boardPlayer);
+
+            const boardComp = compPlayer.board;
+            generateShipsPlacement(boardComp);
+            renderShips(boardPlayer);
         }
 
-        renderBoards();
-        renderNames(userPlayer.name, compPlayer.name);
+        if (mode === 'vsFriend') {
+            userPlayer = player;
+            compPlayer = enemy;
 
-        const boardPlayer = userPlayer.board;
-        console.log(boardPlayer);
-        generateShipsPlacement(boardPlayer);
+            renderBoards();
+            renderNames(userPlayer.name, compPlayer.name);
 
-        const boardComp = compPlayer.board;
-        generateShipsPlacement(boardComp);
-        renderShips(boardPlayer);
+            const boardPlayer = userPlayer.board;
+            generateShipsPlacement(boardPlayer);
+            renderShips(boardPlayer);
+            console.log(boardPlayer);
+        }
     };
 
-    const startVsFriend = (player, enemy, conn) => {
-        renderBoards();
-        renderNames(player.name, enemy.name);
-
-        userPlayer = player;
-        compPlayer = enemy;
-
-        const boardPlayer = userPlayer.board;
-        generateShipsPlacement(boardPlayer);
-        renderShips(boardPlayer);
-        console.log(boardPlayer);
-
-        conn.send({
-            type: "board",
-            board: boardPlayer
-        });
+    const setMode = (currentMode) => {
+        mode = currentMode;
     }
 
     const move = async (row, col) => {
@@ -123,7 +124,7 @@ const game = (function () {
         } while (result === 'hit' || result === 'sunk');
     };
 
-    return { start, move, startVsFriend };
+    return { start, move, setMode };
 })();
 
 export { game, userPlayer, compPlayer };

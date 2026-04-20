@@ -102,7 +102,17 @@ const listeners = () => {
                 const input = document.getElementById('player-name-comp');
                 playerName = input.value !== '' ? input.value : generatePlayerName();
 
-                game.start(playerName, generatePlayerName());
+                game.setMode('vsComp');
+
+                let user, compUser;
+
+                playerName = input.value !== '' ? input.value : generatePlayerName();
+                if (!userPlayer?.name || !compPlayer?.name) {
+                    user = new Player(playerName);
+                    compUser = new Player(generatePlayerName());
+                }
+
+                game.start(user, compUser);
             }
             else if (elemID === 'start-game-online-btn') {
                 const input = document.getElementById('player-name-online');
@@ -199,11 +209,8 @@ const listeners = () => {
                             console.log("Received: ", data.enemy, ' typeof ', typeof data);
 
                             document.getElementById('connection-form-dialog').close();
-                            game.startVsFriend(player, data, conn);
-                        }
-                        if (data.type === "board") {
-                            console.log("Received enemy board:", data.board);
-                            const boardComp = data.board;
+                            game.setMode('vsFriend');
+                            game.start(player, data.enemy, conn);
                         }
                     });
 
@@ -241,7 +248,7 @@ const listeners = () => {
         reset('player-board', '.board-cell');
         reset('enemy-board', '.board-cell');
 
-        game.start();
+        game.start(userPlayer, compPlayer);
     });
 
     document.getElementById('exit-btn').addEventListener('click', () => {
