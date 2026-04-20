@@ -227,8 +227,9 @@ const listeners = () => {
                             processAttack(userPlayer, attackResult, 'player-board', playerBoardBefore, playerBoardAfter, data.position.row, data.position.col);
 
                             renderShipsOutline(userPlayer.board);
+                            game.connection = conn;
 
-                            conn.send({
+                            game.connection.send({
                                 type: 'result',
                                 position: {
                                     row: data.position.row,
@@ -245,7 +246,7 @@ const listeners = () => {
 
                         if (data.type === 'result') {
                             const playerBoardBefore = enemyPlayer.board.getBoard().map(row => [...row]);
-                            const attackResult = enemyPlayer.board.receiveAttack(data.position.row, data.position.col);
+                            const attackResult = data.result;
                             const playerBoardAfter = enemyPlayer.board.getBoard();
 
                             processAttack(enemyPlayer, attackResult, 'enemy-board', playerBoardBefore, playerBoardAfter, data.position.row, data.position.col);

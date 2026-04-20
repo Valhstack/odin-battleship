@@ -140,7 +140,7 @@ const game = (function () {
         } while (result === 'hit' || result === 'sunk');
     };
 
-    return { start, move, setMode, turn };
+    return { start, move, setMode, turn, connection };
 })();
 
 export { game, userPlayer, enemyPlayer };
