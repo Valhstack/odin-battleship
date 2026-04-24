@@ -10,7 +10,7 @@ import { TURN_USERNAME, TURN_CREDENTIALS } from "../config.js";
 const cards = document.getElementsByClassName('card');
 const startGameBtns = document.getElementsByClassName('start-game-btn');
 let elemIndex;
-let hostId, userReady, enemyReady, connection;
+let hostId, userReady, enemyReady, connection, peerId;
 
 let dragAndDropShips = document.getElementById('drag-and-drop-ships-wrapper').querySelectorAll('.ship');
 dragAndDropShips = [...dragAndDropShips];
@@ -145,8 +145,6 @@ const listeners = () => {
                     setupConnection(conn);
                 });
 
-                let peerId;
-
                 peer.on("open", (id) => {
                     peerId = id;
                 });
@@ -177,6 +175,7 @@ const listeners = () => {
                     }
 
                     hostId = friendId;
+                    form.reset();
 
                     const conn = peer.connect(friendId);
                     connection = conn;
@@ -297,10 +296,8 @@ const listeners = () => {
 
                     conn.on("close", () => {
                         document.getElementById('exit-btn').click();
-                        console.log('Peer id: ', conn.peer);
-                        console.log('Host id: ', hostId);
 
-                        if (conn.peer === hostId) {
+                        if (conn.peer !== peerId) {
                             document.getElementById('connection-closed-dialog').showModal();
                         }
                     });
