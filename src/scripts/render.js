@@ -43,9 +43,6 @@ const render = (function () {
     const renderShipsEnemy = (boardValues, ships) => {
         const board = document.getElementById('enemy-board');
 
-        //const boardValues = enemyBoard.getBoard();
-        //const ships = enemyBoard.getShips();
-
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
                 if (boardValues[i][j] === 'X') {
@@ -70,9 +67,6 @@ const render = (function () {
 
     const renderShipsPlayer = (boardValues, ships) => {
         const board = document.getElementById('player-board');
-
-        /*const boardValues = playerBoard.getBoard();
-        const ships = playerBoard.getShips();*/
 
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
@@ -161,6 +155,7 @@ const render = (function () {
             for (let j = -1; j < 10; j++) {
                 const div = document.createElement('div');
                 div.classList.add('board-cell');
+                div.classList.add('enabled');
                 div.dataset.row = i;
                 div.dataset.col = j;
 
@@ -198,6 +193,22 @@ const render = (function () {
             }
         }
     };
+
+    const disableCells = () => {
+        const cells = document.getElementById('enemy-board').querySelectorAll('.board-cell');
+        for (let cell of cells) {
+            cell.classList.remove('enabled');
+            cell.classList.add('disabled');
+        }
+    }
+
+    const enableCells = () => {
+        const cells = document.getElementById('enemy-board').querySelectorAll('.board-cell');
+        for (let cell of cells) {
+            cell.classList.remove('disabled');
+            cell.classList.add('enabled');
+        }
+    }
 
     const reset = (elem, className) => {
         document.getElementById(elem)?.querySelectorAll(className).forEach(el => el.remove());
@@ -308,7 +319,7 @@ const render = (function () {
         }
     };
 
-    return { renderBoards, renderShips, renderMove, renderShipsEnemy, renderShipsPlayer, renderNames, renderTurn, reset, renderResults, renderDragAndDropShips };
+    return { renderBoards, renderShips, renderMove, renderShipsEnemy, renderShipsPlayer, renderNames, renderTurn, reset, renderResults, renderDragAndDropShips, disableCells, enableCells };
 })();
 
 const renderBoards = () => render.renderBoards();
@@ -321,5 +332,7 @@ const renderTurn = (player) => render.renderTurn(player);
 const reset = (elem, className) => render.reset(elem, className);
 const renderResults = (winner) => render.renderResults(winner);
 const renderShipsDragAndDrop = () => render.renderDragAndDropShips();
+const enableCells = () => render.enableCells();
+const disableCells = () => render.disableCells();
 
-export { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, reset, renderResults, renderShipsDragAndDrop };
+export { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, reset, renderResults, renderShipsDragAndDrop, enableCells, disableCells };

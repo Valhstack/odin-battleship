@@ -1,7 +1,7 @@
 import { generatePlayerName, generateShipsPlacement, processAttack } from "./helpers.js";
 import { Player } from "./player.js";
 import { game, userPlayer, enemyPlayer } from "./game.js";
-import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, renderResults, reset } from "./render.js";
+import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, renderResults, reset, disableCells, enableCells } from "./render.js";
 import { comp } from './comp.js';
 import { shipCoords } from "./ship.js";
 import { Peer } from 'peerjs';
@@ -10,6 +10,7 @@ import { TURN_USERNAME, TURN_CREDENTIALS } from "../config.js";
 const cards = document.getElementsByClassName('card');
 const startGameBtns = document.getElementsByClassName('start-game-btn');
 let elemIndex;
+let hostId;
 
 let dragAndDropShips = document.getElementById('drag-and-drop-ships-wrapper').querySelectorAll('.ship');
 dragAndDropShips = [...dragAndDropShips];
@@ -156,6 +157,7 @@ const listeners = () => {
                     document.getElementById('host-player-id').classList.remove('inactive');
                     document.getElementById('connection-wrapper').classList.add('inactive');
                     document.getElementById('host-player-id').textContent = 'Share this ID with the friend to connect: ' + peerId;
+                    hostId = peerId;
                 });
 
                 document.getElementById('connect-to-friend-btn').addEventListener('click', () => {
@@ -194,7 +196,6 @@ const listeners = () => {
                                 name: player.name,
                                 peerId: player.getPeerId()
                             }
-
                         });
                     });
 
@@ -204,7 +205,17 @@ const listeners = () => {
 
                             document.getElementById('connection-form-dialog').close();
                             game.setMode('vsFriend');
-                            game.start(player, enemy, conn);
+                            game.start(player, enemy, conn, hostId);
+                        }
+
+                        if (data.type === 'turn') {
+                            if (!data.isTurn) {
+                                disableCells();
+                            }
+                            else {
+                                renderTurn('user');
+                                enableCells();
+                            }
                         }
 
                         if (data.type === 'move') {
@@ -213,6 +224,11 @@ const listeners = () => {
                             const playerBoardAfter = userPlayer.board.getBoard();
 
                             processAttack(userPlayer.board.getShips(), attackResult, 'player-board', playerBoardBefore, playerBoardAfter, data.position.row, data.position.col, true);
+
+                            if (!userPlayer.board.areShipsLeft()) {
+                                renderResults('enemy');
+                                enemyPlayer.addWin();
+                            }
 
                             conn.send({
                                 type: 'result',
@@ -226,11 +242,6 @@ const listeners = () => {
                                 ships: userPlayer.board.getShips(),
                                 areShipsLeft: userPlayer.board.areShipsLeft()
                             })
-
-                            if (!userPlayer.board.areShipsLeft()) {
-                                renderResults('enemy');
-                                enemyPlayer.addWin();
-                            }
                         }
 
                         if (data.type === 'result') {
@@ -243,6 +254,15 @@ const listeners = () => {
                             if (!data.areShipsLeft) {
                                 renderResults('user');
                                 userPlayer.addWin();
+                            }
+
+                            if (attackResult === 'miss') {
+                                disableCells();
+                                renderTurn('enemy');
+                                conn.send({
+                                    type: 'turn',
+                                    isTurn: true
+                                })
                             }
                         }
                     });

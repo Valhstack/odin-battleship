@@ -1,4 +1,4 @@
-import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, renderResults } from "./render.js";
+import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, renderResults, enableCells, disableCells } from "./render.js";
 import { Player } from "./player.js";
 import { comp } from './comp.js';
 import { generateShipsPlacement } from "./helpers.js";
@@ -8,7 +8,7 @@ let userPlayer, enemyPlayer;
 const game = (function () {
     let mode, connection, turn;
 
-    const start = (player, enemy, conn) => {
+    const start = (player, enemy, conn, hostId) => {
         if (mode === 'vsComp') {
             userPlayer = player;
             enemyPlayer = enemy;
@@ -17,7 +17,6 @@ const game = (function () {
             renderNames(userPlayer.name, enemyPlayer.name);
 
             const boardPlayer = userPlayer.board;
-            console.log(boardPlayer);
             generateShipsPlacement(boardPlayer);
 
             const boardComp = enemyPlayer.board;
@@ -28,6 +27,19 @@ const game = (function () {
         if (mode === 'vsFriend') {
             userPlayer = player;
             enemyPlayer = enemy;
+            connection = conn;
+
+            if (hostId === userPlayer.getPeerId()) {
+                renderTurn('user');
+                connection.send({
+                    type: 'turn',
+                    isTurn: false
+                })
+            }
+            else {
+                renderTurn('enemy');
+                disableCells();
+            }
 
             renderBoards();
             renderNames(userPlayer.name, enemyPlayer.name);
@@ -35,12 +47,7 @@ const game = (function () {
             const boardPlayer = userPlayer.board;
             generateShipsPlacement(boardPlayer);
             renderShips(boardPlayer);
-            console.log(boardPlayer);
-
-            connection = conn;
         }
-
-        console.log('Player 1: ', userPlayer, ' Enemy: ', enemyPlayer);
     };
 
     const setMode = (currentMode) => {
@@ -88,8 +95,12 @@ const game = (function () {
 
             if (attackResult === 'miss') {
                 renderTurn('comp');
+                disableCells();
+
                 await runCompTurn();
+
                 renderTurn('user');
+                enableCells();
 
                 if (!userPlayer.board.areShipsLeft()) {
                     renderResults('comp');

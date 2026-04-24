@@ -640,8 +640,16 @@ input:hover {
     animation: invalid-flash 150ms ease;
 }
 
-.resize{
+.resize {
     height: auto;
+}
+
+.enabled {
+    pointer-events: auto;
+}
+
+.disabled {
+    pointer-events: none;
 }
 
 .inactive {
