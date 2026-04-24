@@ -117,8 +117,6 @@ const listeners = () => {
             else if (elemID === 'start-game-online-btn') {
                 const input = document.getElementById('player-name-online');
 
-                // Add another form if a player wants to start connection or if they want to connect to someone and provide an ID in this case
-
                 document.getElementById('connection-form-dialog').showModal();
 
                 const peer = new Peer({
@@ -143,8 +141,6 @@ const listeners = () => {
                 let connection = null;
 
                 peer.on("connection", (conn) => {
-                    console.log("Incoming connection");
-
                     connection = conn;
                     setupConnection(conn);
                 });
@@ -152,8 +148,6 @@ const listeners = () => {
                 let peerId;
 
                 peer.on("open", (id) => {
-                    console.log("My peer ID:", id);
-
                     peerId = id;
                 });
 
@@ -178,7 +172,6 @@ const listeners = () => {
                     const friendId = formData.get("friend-id");
 
                     if (!friendId) {
-                        console.log("No friend ID provided");
                         return;
                     }
 
@@ -192,8 +185,6 @@ const listeners = () => {
 
                 function setupConnection(conn) {
                     conn.on("open", () => {
-                        console.log("Connected!");
-
                         playerName = input.value !== '' ? input.value : generatePlayerName();
                         player = new Player(playerName, peer.id);
 
@@ -205,13 +196,10 @@ const listeners = () => {
                             }
 
                         });
-                        console.log(player.name);
                     });
 
                     conn.on("data", (data) => {
                         if (data.type === 'enemy') {
-                            console.log("Received: ", data.enemy, ' typeof ', typeof data);
-
                             const enemy = new Player(data.enemy.name, data.enemy.peerId);
 
                             document.getElementById('connection-form-dialog').close();
@@ -220,8 +208,6 @@ const listeners = () => {
                         }
 
                         if (data.type === 'move') {
-                            console.log(conn.peer);
-
                             const playerBoardBefore = userPlayer.board.getBoard().map(row => [...row]);
                             const attackResult = userPlayer.board.receiveAttack(data.position.row, data.position.col);
                             const playerBoardAfter = userPlayer.board.getBoard();
@@ -248,8 +234,6 @@ const listeners = () => {
                         }
 
                         if (data.type === 'result') {
-                            console.log(conn.peer);
-
                             const playerBoardBefore = data.boardBefore;
                             const attackResult = data.result;
                             const playerBoardAfter = data.boardAfter;
@@ -264,7 +248,6 @@ const listeners = () => {
                     });
 
                     conn.on("close", () => {
-                        console.log("Connection closed");
                     });
 
                     conn.on("error", (err) => {
