@@ -10,7 +10,7 @@ import { TURN_USERNAME, TURN_CREDENTIALS } from "../config.js";
 const cards = document.getElementsByClassName('card');
 const startGameBtns = document.getElementsByClassName('start-game-btn');
 let elemIndex;
-let hostId, userReady, enemyReady;
+let hostId, userReady, enemyReady, connection;
 
 let dragAndDropShips = document.getElementById('drag-and-drop-ships-wrapper').querySelectorAll('.ship');
 dragAndDropShips = [...dragAndDropShips];
@@ -139,7 +139,6 @@ const listeners = () => {
                         ]
                     }
                 });
-                let connection = null;
 
                 peer.on("connection", (conn) => {
                     connection = conn;
@@ -206,8 +205,10 @@ const listeners = () => {
 
                         if (userReady && enemyReady) {
                             document.getElementById('is-player-ready-dialog').classList.add('inactive');
+                            document.getElementById('is-ready-button').classList.remove('inactive');
+                            document.getElementById('is-ready-text').textContent = 'Are you ready?';
                         }
-                        
+
                         conn.send({
                             type: 'ready',
                             isReady: true
@@ -228,6 +229,8 @@ const listeners = () => {
 
                             if (userReady && enemyReady) {
                                 document.getElementById('is-player-ready-dialog').classList.add('inactive');
+                                document.getElementById('is-ready-button').classList.remove('inactive');
+                                document.getElementById('is-ready-text').textContent = 'Are you ready?';
                             }
                         }
 
@@ -291,6 +294,8 @@ const listeners = () => {
                     });
 
                     conn.on("close", () => {
+                        document.getElementById('exit-btn').click();
+                        // add notification that peer closed connection
                     });
 
                     conn.on("error", (err) => {
@@ -324,6 +329,8 @@ const listeners = () => {
         reset('enemy-board', '.board-cell');
 
         game.start(userPlayer, enemyPlayer);
+
+        // add notification that player suggests re-match
     });
 
     document.getElementById('exit-btn').addEventListener('click', () => {
@@ -342,6 +349,10 @@ const listeners = () => {
         enemyPlayer.name = undefined;
 
         document.getElementById('start-screen').classList.remove('inactive');
+
+        if (game.getMode() === 'vsFriend') {
+            connection.close();
+        }
     });
 
     document.getElementById('drag-and-drop-ships-btn').addEventListener('click', () => {

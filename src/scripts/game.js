@@ -55,6 +55,10 @@ const game = (function () {
         mode = currentMode;
     }
 
+    const getMode = () => {
+        return mode;
+    }
+
     const move = async (row, col) => {
         const enemyBoardBefore = enemyPlayer.board.getBoard().map(row => [...row]);
 
@@ -152,7 +156,7 @@ const game = (function () {
         } while (result === 'hit' || result === 'sunk');
     };
 
-    return { start, move, setMode, connection };
+    return { start, move, setMode, connection, getMode };
 })();
 
 export { game, userPlayer, enemyPlayer };
