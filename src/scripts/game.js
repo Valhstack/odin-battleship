@@ -6,7 +6,7 @@ import { generateShipsPlacement } from "./helpers.js";
 let userPlayer, enemyPlayer;
 
 const game = (function () {
-    let mode, connection, turn;
+    let mode, connection;
 
     const start = (player, enemy, conn, hostId) => {
         if (mode === 'vsComp') {
@@ -151,7 +151,7 @@ const game = (function () {
         } while (result === 'hit' || result === 'sunk');
     };
 
-    return { start, move, setMode, turn, connection };
+    return { start, move, setMode, connection };
 })();
 
 export { game, userPlayer, enemyPlayer };
