@@ -301,7 +301,6 @@ const listeners = () => {
                         console.log('Host id: ', hostId);
 
                         if (conn.peer === hostId) {
-                            // add notification that peer closed connection
                             document.getElementById('connection-closed-dialog').showModal();
                         }
                     });
@@ -340,7 +339,15 @@ const listeners = () => {
         reset('player-board', '.board-cell');
         reset('enemy-board', '.board-cell');
 
-        game.start(userPlayer, enemyPlayer);
+        userReady = false;
+        enemyReady = false;
+
+        if (game.getMode() === 'vsFriend') {
+            game.start(userPlayer, enemyPlayer, connection, hostId);
+        }
+        else {
+            game.start(userPlayer, enemyPlayer);
+        }
 
         // add notification that player suggests re-match
     });
