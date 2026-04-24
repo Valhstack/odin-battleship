@@ -319,7 +319,11 @@ const render = (function () {
         }
     };
 
-    return { renderBoards, renderShips, renderMove, renderShipsEnemy, renderShipsPlayer, renderNames, renderTurn, reset, renderResults, renderDragAndDropShips, disableCells, enableCells };
+    const renderIsReady = () => {
+        document.getElementById('is-player-ready-dialog').classList.remove('inactive');
+    };
+
+    return { renderBoards, renderShips, renderMove, renderShipsEnemy, renderShipsPlayer, renderNames, renderTurn, reset, renderResults, renderDragAndDropShips, disableCells, enableCells, renderIsReady };
 })();
 
 const renderBoards = () => render.renderBoards();
@@ -334,5 +338,6 @@ const renderResults = (winner) => render.renderResults(winner);
 const renderShipsDragAndDrop = () => render.renderDragAndDropShips();
 const enableCells = () => render.enableCells();
 const disableCells = () => render.disableCells();
+const renderIsReady = () => render.renderIsReady();
 
-export { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, reset, renderResults, renderShipsDragAndDrop, enableCells, disableCells };
+export { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, reset, renderResults, renderShipsDragAndDrop, enableCells, disableCells, renderIsReady };

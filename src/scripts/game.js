@@ -1,4 +1,4 @@
-import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, renderResults, enableCells, disableCells } from "./render.js";
+import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, renderResults, enableCells, disableCells, renderIsReady } from "./render.js";
 import { Player } from "./player.js";
 import { comp } from './comp.js';
 import { generateShipsPlacement } from "./helpers.js";
@@ -47,6 +47,7 @@ const game = (function () {
             const boardPlayer = userPlayer.board;
             generateShipsPlacement(boardPlayer);
             renderShips(boardPlayer);
+            renderIsReady();
         }
     };
 

@@ -10,7 +10,7 @@ import { TURN_USERNAME, TURN_CREDENTIALS } from "../config.js";
 const cards = document.getElementsByClassName('card');
 const startGameBtns = document.getElementsByClassName('start-game-btn');
 let elemIndex;
-let hostId;
+let hostId, userReady, enemyReady;
 
 let dragAndDropShips = document.getElementById('drag-and-drop-ships-wrapper').querySelectorAll('.ship');
 dragAndDropShips = [...dragAndDropShips];
@@ -199,6 +199,21 @@ const listeners = () => {
                         });
                     });
 
+                    document.getElementById('is-ready-button').addEventListener('click', (e) => {
+                        userReady = true;
+                        document.getElementById('is-ready-button').classList.add('inactive');
+                        document.getElementById('is-ready-text').textContent = 'Waiting for your oponent';
+
+                        if (userReady && enemyReady) {
+                            document.getElementById('is-player-ready-dialog').classList.add('inactive');
+                        }
+                        
+                        conn.send({
+                            type: 'ready',
+                            isReady: true
+                        })
+                    });
+
                     conn.on("data", (data) => {
                         if (data.type === 'enemy') {
                             const enemy = new Player(data.enemy.name, data.enemy.peerId);
@@ -206,6 +221,14 @@ const listeners = () => {
                             document.getElementById('connection-form-dialog').close();
                             game.setMode('vsFriend');
                             game.start(player, enemy, conn, hostId);
+                        }
+
+                        if (data.type === 'ready') {
+                            enemyReady = data.isReady;
+
+                            if (userReady && enemyReady) {
+                                document.getElementById('is-player-ready-dialog').classList.add('inactive');
+                            }
                         }
 
                         if (data.type === 'turn') {
