@@ -1,7 +1,7 @@
 import { generatePlayerName, generateShipsPlacement, processAttack } from "./helpers.js";
 import { Player } from "./player.js";
 import { game, userPlayer, enemyPlayer } from "./game.js";
-import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, renderResults } from "./render.js";
+import { renderBoards, renderShips, renderMove, renderShipsOutline, renderPlayerShipSunk, renderNames, renderTurn, renderResults, reset } from "./render.js";
 import { comp } from './comp.js';
 import { shipCoords } from "./ship.js";
 import { Peer } from 'peerjs';
