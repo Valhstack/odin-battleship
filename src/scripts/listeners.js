@@ -176,6 +176,8 @@ const listeners = () => {
                         return;
                     }
 
+                    hostId = friendId;
+
                     const conn = peer.connect(friendId);
                     connection = conn;
 
@@ -295,7 +297,13 @@ const listeners = () => {
 
                     conn.on("close", () => {
                         document.getElementById('exit-btn').click();
-                        // add notification that peer closed connection
+                        console.log('Peer id: ', conn.peer);
+                        console.log('Host id: ', hostId);
+
+                        if (conn.peer === hostId) {
+                            // add notification that peer closed connection
+                            document.getElementById('connection-closed-dialog').showModal();
+                        }
                     });
 
                     conn.on("error", (err) => {
@@ -309,6 +317,10 @@ const listeners = () => {
             }
         })
     }
+
+    document.getElementById('ok-button').addEventListener('click', () => {
+        document.getElementById('connection-closed-dialog').close();
+    });
 
     document.getElementById('generate-ships-placement-btn').addEventListener('click', () => {
         userPlayer.board.resetBoard();
