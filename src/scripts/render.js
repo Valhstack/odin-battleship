@@ -40,11 +40,11 @@ const render = (function () {
         }
     };
 
-    const renderShipsEnemy = (enemyBoard) => {
+    const renderShipsEnemy = (boardValues, ships) => {
         const board = document.getElementById('enemy-board');
 
-        const boardValues = enemyBoard.getBoard();
-        const ships = enemyBoard.getShips();
+        //const boardValues = enemyBoard.getBoard();
+        //const ships = enemyBoard.getShips();
 
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
@@ -68,11 +68,11 @@ const render = (function () {
         }
     };
 
-    const renderShipsPlayer = (playerBoard) => {
+    const renderShipsPlayer = (boardValues, ships) => {
         const board = document.getElementById('player-board');
 
-        const boardValues = playerBoard.getBoard();
-        const ships = playerBoard.getShips();
+        /*const boardValues = playerBoard.getBoard();
+        const ships = playerBoard.getShips();*/
 
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
@@ -315,8 +315,8 @@ const renderBoards = () => render.renderBoards();
 const renderNames = (playerName, compName) => render.renderNames(playerName, compName);
 const renderShips = (playerBoard) => render.renderShips(playerBoard);
 const renderMove = (boardName, cellValue, row, col) => render.renderMove(boardName, cellValue, row, col);
-const renderShipsOutline = (enemyBoard) => render.renderShipsEnemy(enemyBoard);
-const renderPlayerShipSunk = (playerBoard) => render.renderShipsPlayer(playerBoard);
+const renderShipsOutline = (boardValues, ships) => render.renderShipsEnemy(boardValues, ships);
+const renderPlayerShipSunk = (boardValues, ships) => render.renderShipsPlayer(boardValues, ships);
 const renderTurn = (player) => render.renderTurn(player);
 const reset = (elem, className) => render.reset(elem, className);
 const renderResults = (winner) => render.renderResults(winner);

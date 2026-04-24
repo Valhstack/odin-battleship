@@ -220,43 +220,46 @@ const listeners = () => {
                         }
 
                         if (data.type === 'move') {
+                            console.log(conn.peer);
+
                             const playerBoardBefore = userPlayer.board.getBoard().map(row => [...row]);
                             const attackResult = userPlayer.board.receiveAttack(data.position.row, data.position.col);
                             const playerBoardAfter = userPlayer.board.getBoard();
 
-                            processAttack(userPlayer, attackResult, 'player-board', playerBoardBefore, playerBoardAfter, data.position.row, data.position.col);
+                            processAttack(userPlayer.board.getShips(), attackResult, 'player-board', playerBoardBefore, playerBoardAfter, data.position.row, data.position.col, true);
 
-                            renderShipsOutline(userPlayer.board);
-                            game.connection = conn;
-
-                            game.connection.send({
+                            conn.send({
                                 type: 'result',
                                 position: {
                                     row: data.position.row,
                                     col: data.position.col
                                 },
-                                result: attackResult
+                                result: attackResult,
+                                boardBefore: playerBoardBefore,
+                                boardAfter: playerBoardAfter,
+                                ships: userPlayer.board.getShips(),
+                                areShipsLeft: userPlayer.board.areShipsLeft()
                             })
 
-                            /*if (!userPlayer.board.areShipsLeft()) {
-                                renderResults('user');
+                            if (!userPlayer.board.areShipsLeft()) {
+                                renderResults('enemy');
                                 enemyPlayer.addWin();
-                            }*/
+                            }
                         }
 
                         if (data.type === 'result') {
-                            const playerBoardBefore = enemyPlayer.board.getBoard().map(row => [...row]);
+                            console.log(conn.peer);
+
+                            const playerBoardBefore = data.boardBefore;
                             const attackResult = data.result;
-                            const playerBoardAfter = enemyPlayer.board.getBoard();
+                            const playerBoardAfter = data.boardAfter;
 
-                            processAttack(enemyPlayer, attackResult, 'enemy-board', playerBoardBefore, playerBoardAfter, data.position.row, data.position.col);
+                            processAttack(data.ships, attackResult, 'enemy-board', playerBoardBefore, playerBoardAfter, data.position.row, data.position.col, false);
 
-                            renderShipsOutline(enemyPlayer.board);
-
-                            /*if (!enemyPlayer.board.areShipsLeft()) {
+                            if (!data.areShipsLeft) {
                                 renderResults('user');
                                 userPlayer.addWin();
-                            }*/
+                            }
                         }
                     });
 

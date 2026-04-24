@@ -78,7 +78,7 @@ const game = (function () {
                     }
                 }
 
-                renderShipsOutline(enemyPlayer.board);
+                renderShipsOutline(enemyPlayer.board.getBoard(), enemyPlayer.board.getShips());
 
                 if (!enemyPlayer.board.areShipsLeft()) {
                     renderResults('user');
@@ -128,7 +128,7 @@ const game = (function () {
                     }
                 }
 
-                renderPlayerShipSunk(userPlayer.board);
+                renderPlayerShipSunk(playerBoardAfter, userPlayer.board.getShips());
             }
 
             result = compMoveResult.result;

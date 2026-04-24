@@ -121,7 +121,7 @@ const attemptPlacement = (coord1, coord2, coord3, direction, board) => {
     return false;
 }
 
-const processAttack = (player, attackResult, boardName, valuesBefore, valuesAfter, row, col) => {
+const processAttack = (ships, attackResult, boardName, valuesBefore, valuesAfter, row, col, isAttackReceived) => {
     if (attackResult === 'hit' || attackResult === 'miss') {
         renderMove(boardName, valuesAfter[row][col], row, col);
     }
@@ -134,7 +134,12 @@ const processAttack = (player, attackResult, boardName, valuesBefore, valuesAfte
             }
         }
 
-        renderShipsOutline(player.board);
+        if (isAttackReceived) {
+            renderPlayerShipSunk(valuesAfter, ships);
+        }
+        else {
+            renderShipsOutline(valuesAfter, ships);
+        }
     }
 }
 
