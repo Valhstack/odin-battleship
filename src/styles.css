@@ -762,6 +762,12 @@ input:hover {
     filter: invert(89%) sepia(8%) saturate(323%) hue-rotate(169deg) brightness(95%) contrast(92%);
 }
 
+#copy-player-id-btn:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+}
+
 .copy-player-id-wrapper {
     display: flex;
     gap: 6px;
