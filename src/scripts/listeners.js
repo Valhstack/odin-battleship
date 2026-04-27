@@ -269,28 +269,32 @@ const listeners = () => {
 
                         if (data.type === 'move') {
                             const playerBoardBefore = userPlayer.board.getBoard().map(row => [...row]);
-                            const attackResult = userPlayer.board.receiveAttack(data.position.row, data.position.col);
-                            const playerBoardAfter = userPlayer.board.getBoard();
+                            try {
+                                const attackResult = userPlayer.board.receiveAttack(data.position.row, data.position.col);
 
-                            processAttack(userPlayer.board.getShips(), attackResult, 'player-board', playerBoardBefore, playerBoardAfter, data.position.row, data.position.col, true);
+                                const playerBoardAfter = userPlayer.board.getBoard();
 
-                            if (!userPlayer.board.areShipsLeft()) {
-                                renderResults('enemy');
-                                enemyPlayer.addWin();
+                                processAttack(userPlayer.board.getShips(), attackResult, 'player-board', playerBoardBefore, playerBoardAfter, data.position.row, data.position.col, true);
+
+                                if (!userPlayer.board.areShipsLeft()) {
+                                    renderResults('enemy');
+                                    enemyPlayer.addWin();
+                                }
+
+                                conn.send({
+                                    type: 'result',
+                                    position: {
+                                        row: data.position.row,
+                                        col: data.position.col
+                                    },
+                                    result: attackResult,
+                                    boardBefore: playerBoardBefore,
+                                    boardAfter: playerBoardAfter,
+                                    ships: userPlayer.board.getShips(),
+                                    areShipsLeft: userPlayer.board.areShipsLeft()
+                                })
                             }
-
-                            conn.send({
-                                type: 'result',
-                                position: {
-                                    row: data.position.row,
-                                    col: data.position.col
-                                },
-                                result: attackResult,
-                                boardBefore: playerBoardBefore,
-                                boardAfter: playerBoardAfter,
-                                ships: userPlayer.board.getShips(),
-                                areShipsLeft: userPlayer.board.areShipsLeft()
-                            })
+                            catch (e) { }
                         }
 
                         if (data.type === 'result') {
