@@ -292,6 +292,10 @@ const listeners = () => {
                                 })
                             }
                         }
+
+                        if (data.type === 'new game') {
+                            document.getElementById('rematch-suggested-wrapper').classList.remove('inactive');
+                        }
                     });
 
                     conn.on("close", () => {
@@ -339,13 +343,22 @@ const listeners = () => {
         userReady = false;
         enemyReady = false;
 
+        if (document.getElementById('rematch-suggested-wrapper').classList.contains('inactive')) {
+            connection.send({
+                type: 'new game',
+                isGameSuggested: true
+            })
+        }
+        else {
+            document.getElementById('rematch-suggested-wrapper').classList.add('inactive');
+        }
+
         if (game.getMode() === 'vsFriend') {
             game.start(userPlayer, enemyPlayer, connection, hostId);
         }
         else {
             game.start(userPlayer, enemyPlayer);
         }
-
         // add notification that player suggests re-match
     });
 
