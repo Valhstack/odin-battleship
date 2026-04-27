@@ -6,6 +6,8 @@ import { comp } from './comp.js';
 import { shipCoords } from "./ship.js";
 import { Peer } from 'peerjs';
 import { TURN_USERNAME, TURN_CREDENTIALS } from "../config.js";
+import checkImg from '../images/check.svg';
+import copyImg from '../images/content-copy.svg';
 
 const cards = document.getElementsByClassName('card');
 const startGameBtns = document.getElementsByClassName('start-game-btn');
@@ -97,7 +99,16 @@ const listeners = () => {
         btn.addEventListener('click', () => {
             document.getElementById('connection-form-dialog').close();
             document.getElementById('connection-form-dialog').classList.remove('open');
+
+            document.getElementById('copy-img').src = copyImg;
         });
+    });
+
+    document.getElementById('copy-player-id-btn').addEventListener('click', () => {
+        document.getElementById('copy-img').src = checkImg;
+
+        const text = document.getElementById('host-player-id').textContent;
+        navigator.clipboard.writeText(text);
     });
 
     for (let btn of startGameBtns) {
@@ -230,6 +241,8 @@ const listeners = () => {
 
                             document.getElementById('connection-form-dialog').close();
                             document.getElementById('connection-form-dialog').classList.remove('open');
+                            document.getElementById('copy-img').src = copyImg;
+
                             game.setMode('vsFriend');
                             game.start(player, enemy, conn, hostId);
                         }
