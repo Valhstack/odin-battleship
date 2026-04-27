@@ -359,7 +359,6 @@ const listeners = () => {
         else {
             game.start(userPlayer, enemyPlayer);
         }
-        // add notification that player suggests re-match
     });
 
     document.getElementById('exit-btn').addEventListener('click', () => {
