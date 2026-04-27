@@ -673,6 +673,17 @@ input:hover {
 #connection-form-dialog {
     width: 460px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+        opacity 180ms ease,
+        transform 180ms ease;
+}
+
+#connection-form-dialog.open {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .connection-header {
@@ -688,7 +699,7 @@ input:hover {
     line-height: 1.4;
 }
 
-#connection-wrapper {
+.connection-wrapper {
     display: flex;
     flex-direction: column;
     gap: 12px;

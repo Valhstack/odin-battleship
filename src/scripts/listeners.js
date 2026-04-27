@@ -119,6 +119,7 @@ const listeners = () => {
                 const input = document.getElementById('player-name-online');
 
                 document.getElementById('connection-form-dialog').showModal();
+                document.getElementById('connection-form-dialog').classList.add('open');
 
                 const peer = new Peer({
                     config: {
@@ -221,6 +222,7 @@ const listeners = () => {
                             const enemy = new Player(data.enemy.name, data.enemy.peerId);
 
                             document.getElementById('connection-form-dialog').close();
+                            document.getElementById('connection-form-dialog').classList.remove('open');
                             game.setMode('vsFriend');
                             game.start(player, enemy, conn, hostId);
                         }
