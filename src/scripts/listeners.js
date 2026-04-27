@@ -152,9 +152,9 @@ const listeners = () => {
 
 
                 document.getElementById('start-connection-btn').addEventListener('click', () => {
-                    document.getElementById('host-player-id').classList.remove('inactive');
+                    document.getElementById('host-player-id-wrapper').classList.remove('inactive');
                     document.getElementById('connection-wrapper').classList.add('inactive');
-                    document.getElementById('host-player-id').textContent = 'Share this ID with the friend to connect: ' + peerId;
+                    document.getElementById('host-player-id').textContent = peerId;
                     hostId = peerId;
                 });
 

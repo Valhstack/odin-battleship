@@ -672,6 +672,7 @@ input:hover {
 
 #connection-form-dialog {
     width: 460px;
+    padding: 24px 28px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
 
     opacity: 0;
@@ -746,6 +747,74 @@ input:hover {
 
 #connection-to-friend-btn:hover {
     background-color: rgba(255, 255, 255, 0.05);
+}
+
+#copy-player-id-btn {
+    width: 32px;
+    height: 32px;
+    background-color: transparent;
+    border: none;
+}
+
+#copy-img {
+    width: 22px;
+    height: 22px;
+    filter: invert(89%) sepia(8%) saturate(323%) hue-rotate(169deg) brightness(95%) contrast(92%);
+}
+
+.copy-player-id-wrapper {
+    display: flex;
+    gap: 6px;
+
+    align-items: center;
+    justify-content: center;
+}
+
+.host-player-id-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+#host-player-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #5FD1EE;
+    letter-spacing: 0.6px;
+}
+
+#host-player-subtext {
+    font-size: 13px;
+    color: rgba(207, 228, 236, 0.65);
+    margin-bottom: 10px;
+}
+
+#host-player-id {
+    font-size: 17px;
+    color: #F2FAFF;
+    letter-spacing: 0.7px;
+    word-break: break-all;
+    font-weight: 500;
+}
+
+.player-id-wrapper {
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.24);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+}
+
+.copy-btn-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+#id-copied-confirmation-text {
+    font-size: 12px;
+    color: #5FD1EE;
 }
 
 .inactive {
