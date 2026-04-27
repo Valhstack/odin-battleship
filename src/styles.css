@@ -535,7 +535,7 @@ input:hover {
     background-color: rgba(255, 255, 255, 0.04);
 }
 
-#winner-announcement {
+.dialog {
     width: 420px;
     padding: 36px;
     background-color: #11323F;
@@ -668,6 +668,73 @@ input:hover {
     justify-content: center;
 
     top: 10%;
+}
+
+#connection-form-dialog {
+    width: 460px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
+}
+
+.connection-header {
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    color: #5FD1EE;
+}
+
+.connection-subtext {
+    font-size: 14px;
+    color: rgba(207, 228, 236, 0.7);
+    line-height: 1.4;
+}
+
+#connection-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.connection-btns-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+
+    margin-top: 16px;
+}
+
+#start-connection-btn {
+    height: 40px;
+    padding: 0 28px;
+    background-color: #46B5CF;
+    color: #E6F2F7;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+#start-connection-btn:hover {
+    background-color: #4FC3E0;
+}
+
+#connect-to-friend-btn {
+    height: 40px;
+    padding: 0 28px;
+    background-color: transparent;
+    color: #CFE4EC;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+#connection-to-friend-btn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
 }
 
 .inactive {
