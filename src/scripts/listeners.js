@@ -99,6 +99,10 @@ const listeners = () => {
         btn.addEventListener('click', () => {
             document.getElementById('connection-form-dialog').close();
             document.getElementById('connection-form-dialog').classList.remove('open');
+            document.getElementById('connect-to-friend-form-wrapper').classList.add('inactive');
+            document.getElementById('connection-form-wrapper').classList.remove('inactive');
+            document.getElementById('connection-wrapper').classList.remove('inactive');
+            document.getElementById('host-player-id-wrapper').classList.add('inactive');
 
             document.getElementById('copy-img').src = copyImg;
         });

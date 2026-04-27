@@ -707,7 +707,8 @@ input:hover {
 }
 
 .host-player-top-wrapper,
-.connection-top-wrapper {
+.connection-top-wrapper,
+.connect-to-friend-form-top-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -760,6 +761,12 @@ input:hover {
     white-space: nowrap;
 }
 
+#connect-to-friend-btn:hover {
+    background-color: rgba(120, 200, 220, 0.08);
+    border: 1px solid rgba(120, 200, 220, 0.55);
+    color: #E6FAFF;
+}
+
 #connection-to-friend-btn:hover {
     background-color: rgba(255, 255, 255, 0.05);
 }
@@ -802,7 +809,8 @@ input:hover {
     gap: 8px;
 }
 
-#host-player-title {
+#host-player-title,
+.title {
     font-size: 20px;
     font-weight: 600;
     color: #5FD1EE;
@@ -841,6 +849,48 @@ input:hover {
 #id-copied-confirmation-text {
     font-size: 12px;
     color: #5FD1EE;
+}
+
+.connect-to-friend-title {
+    color: #6FD3E3;
+}
+
+#connect-friend-subtext {
+    font-size: 13px;
+    color: rgba(200, 230, 240, 0.7);
+}
+
+#friend-id {
+    margin-top: 8px;
+    text-align: center;
+}
+
+#set-connection-btn {
+    height: 44px;
+    padding: 0 26px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    background-color: #4FA3B8;
+    color: #E6F2F7;
+    border: none;
+    box-shadow: 0 2px 8px rgba(80, 180, 200, 0.15);
+    margin-top: 12px;
+}
+
+#set-connection-btn:hover {
+    background-color: #569FB2;
+    box-shadow: 0 4px 12px rgba(80, 180, 200, 0.18);
+}
+
+.connect-to-friend-form {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px;
 }
 
 .inactive {

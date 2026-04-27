@@ -112,9 +112,13 @@
                     </div>
                 </div>
                 <div id="connect-to-friend-form-wrapper" class="connect-to-friend-form-wrapper inactive">
-                    <form id="connect-to-friend-form">
-                        <label for="friend-id">Friend's ID: </label><br>
-                        <input type="text" id="friend-id" name="friend-id"><br>
+                    <form id="connect-to-friend-form" class="connect-to-friend-form">
+                        <div id="connect-to-friend-form-top-wrapper" class="connect-to-friend-form-top-wrapper">
+                            <label for="friend-id" class="connect-to-friend-title title">CONNECT TO FRIEND</label>
+                            <button class="close-btn" type="button"><img src="./images/close.svg" class="img"></button>
+                        </div>
+                        <p id="connect-friend-subtext">Enter your friend's connection ID</p>
+                        <input type="text" id="friend-id" name="friend-id">
                         <button id="set-connection-btn">Connect</button>
                     </form>
                 </div>
