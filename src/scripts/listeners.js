@@ -93,6 +93,13 @@ const listeners = () => {
         }
     });
 
+    document.querySelectorAll('.close-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            document.getElementById('connection-form-dialog').close();
+            document.getElementById('connection-form-dialog').classList.remove('open');
+        });
+    });
+
     for (let btn of startGameBtns) {
         btn.addEventListener('click', (e) => {
             const elemID = e.currentTarget.id;

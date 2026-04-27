@@ -706,6 +706,21 @@ input:hover {
     gap: 12px;
 }
 
+.host-player-top-wrapper,
+.connection-top-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+
+    width: 100%;
+}
+
+.close-btn {
+    position: absolute;
+    right: 12px;
+}
+
 .connection-btns-wrapper {
     display: flex;
     align-items: center;
@@ -749,20 +764,23 @@ input:hover {
     background-color: rgba(255, 255, 255, 0.05);
 }
 
-#copy-player-id-btn {
+#copy-player-id-btn,
+.close-btn {
     width: 32px;
     height: 32px;
     background-color: transparent;
     border: none;
 }
 
-#copy-img {
+#copy-img,
+.img {
     width: 22px;
     height: 22px;
     filter: invert(89%) sepia(8%) saturate(323%) hue-rotate(169deg) brightness(95%) contrast(92%);
 }
 
-#copy-player-id-btn:hover {
+#copy-player-id-btn:hover,
+.close-btn:hover {
     background-color: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 6px;

@@ -83,7 +83,10 @@
             <dialog id="connection-form-dialog" class="dialog">
                 <div id="connection-form-wrapper" class="connection-form-wrapper">
                     <div id="connection-wrapper" class="connection-wrapper">
-                        <h3 class="connection-header">CONNECT TO A PLAYER</h3>
+                        <div id="connection-top-wrapper" class="connection-top-wrapper">
+                            <h3 class="connection-header">CONNECT TO A PLAYER</h3>
+                            <button class="close-btn"><img src="./images/close.svg" class="img"></button>
+                        </div>
                         <p class="connection-subtext">Start a new session or connect to a friend</p>
                         <div class="connection-btns-wrapper">
                             <button id="start-connection-btn">Start connection</button>
@@ -92,15 +95,18 @@
                     </div>
 
                     <div id="host-player-id-wrapper" class="host-player-id-wrapper inactive">
-                        <h3 id="host-player-title">SHARE CONNECTION ID</h3>
+                        <div id="host-player-top-wrapper" class="host-player-top-wrapper">
+                            <h3 id="host-player-title">SHARE CONNECTION ID</h3>
+                            <button class="close-btn"><img src="./images/close.svg" class="img"></button>
+                        </div>
                         <p id="host-player-subtext">Send this ID to your friend to connect</p>
                         <div id="copy-player-id-wrapper" class="copy-player-id-wrapper">
                             <div id="player-id-wrapper" class="player-id-wrapper">
                                 <p id="host-player-id"></p>
                             </div>
                             <div id="copy-btn-wrapper">
-                                <button id="copy-player-id-btn"><img src="./images/content-copy.svg"
-                                        id="copy-img"></button>
+                                <button id="copy-player-id-btn"><img src="./images/content-copy.svg" id="copy-img"
+                                        class="img"></button>
                                 <p id="id-copied-confirmation-text" class="inactive">Copied to clipboard!</p>
                             </div>
                         </div>
