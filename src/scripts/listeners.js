@@ -290,6 +290,27 @@ const listeners = () => {
 
                                 processAttack(userPlayer.board.getShips(), attackResult, 'player-board', playerBoardBefore, playerBoardAfter, data.position.row, data.position.col, true);
 
+                                if (attackResult === 'hit') {
+                                    const sound = document.getElementById('hit-sound');
+                                    sound.volume = 0.4;
+                                    sound.currentTime = 0;
+                                    sound.play();
+                                }
+
+                                if (attackResult === 'sunk') {
+                                    const sound = document.getElementById('sunk-sound');
+                                    sound.volume = 0.5;
+                                    sound.currentTime = 0;
+                                    sound.play();
+                                }
+
+                                if (attackResult === 'miss') {
+                                    const sound = document.getElementById('miss-sound');
+                                    sound.volume = 0.3;
+                                    sound.currentTime = 0;
+                                    sound.play();
+                                }
+
                                 if (!userPlayer.board.areShipsLeft()) {
                                     renderResults('enemy');
                                     enemyPlayer.addWin();
@@ -323,7 +344,26 @@ const listeners = () => {
                                 userPlayer.addWin();
                             }
 
+                            if (attackResult === 'hit') {
+                                const sound = document.getElementById('hit-sound');
+                                sound.volume = 0.4;
+                                sound.currentTime = 0;
+                                sound.play();
+                            }
+
+                            if (attackResult === 'sunk') {
+                                const sound = document.getElementById('sunk-sound');
+                                sound.volume = 0.5;
+                                sound.currentTime = 0;
+                                sound.play();
+                            }
+
                             if (attackResult === 'miss') {
+                                const sound = document.getElementById('miss-sound');
+                                sound.volume = 0.3;
+                                sound.currentTime = 0;
+                                sound.play();
+
                                 disableCells();
                                 renderTurn('enemy');
                                 conn.send({

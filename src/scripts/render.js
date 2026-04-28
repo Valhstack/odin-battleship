@@ -227,6 +227,10 @@ const render = (function () {
 
             h4Result.textContent = 'VICTORY';
             pResultSubtext.textContent = VICTORY_MESSAGES[Math.floor(Math.random() * VICTORY_MESSAGES.length)];
+
+            const sound = document.getElementById('win-sound');
+            sound.currentTime = 0;
+            sound.play();
         }
         else {
             h4Result.classList.remove('victory');
@@ -237,6 +241,10 @@ const render = (function () {
 
             h4Result.textContent = 'DEFEAT';
             pResultSubtext.textContent = DEFEAT_MESSAGES[Math.floor(Math.random() * DEFEAT_MESSAGES.length)];
+
+            const sound = document.getElementById('lose-sound');
+            sound.currentTime = 0;
+            sound.play();
         }
 
         const dialog = document.getElementById('winner-announcement');

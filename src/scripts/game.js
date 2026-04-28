@@ -98,7 +98,26 @@ const game = (function () {
                 }
             }
 
+            if (attackResult === 'hit') {
+                const sound = document.getElementById('hit-sound');
+                sound.volume = 0.4;
+                sound.currentTime = 0;
+                sound.play();
+            }
+
+            if (attackResult === 'sunk') {
+                const sound = document.getElementById('sunk-sound');
+                sound.volume = 0.5;
+                sound.currentTime = 0;
+                sound.play();
+            }
+
             if (attackResult === 'miss') {
+                const sound = document.getElementById('miss-sound');
+                sound.volume = 0.3;
+                sound.currentTime = 0;
+                sound.play();
+
                 renderTurn('comp');
                 disableCells();
 
