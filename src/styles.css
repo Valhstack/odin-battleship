@@ -94,6 +94,22 @@
     }
 }
 
+@keyframes dialogIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.dialog-enter {
+    animation: dialogIn 140ms ease-out;
+}
+
 .waiting {
     animation: waitingFade 1.8s ease-in-out infinite;
 }
@@ -709,7 +725,7 @@ input:hover {
     box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
 }
 
-.is-player-ready-wrapper:hover{
+.is-player-ready-wrapper:hover {
     animation-play-state: paused;
 }
 
@@ -973,6 +989,63 @@ input:hover {
     justify-content: center;
 
     gap: 14px;
+}
+
+.connection-closed-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px;
+}
+
+#signal-lost-text {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: rgba(220, 245, 255, 0.85);
+    max-width: 360px;
+    text-align: center;
+}
+
+#ok-button {
+    height: 36px;
+    min-width: 90px;
+    padding: 0 18px;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    background-color: #4FA3B8;
+    color: #FFFFFF;
+
+    border: none;
+    border-radius: 8px;
+}
+
+#ok-button:hover {
+    background-color: #569FB2;
+    box-shadow: 0 1px 4px rgba(80, 180, 200, 0.12);
+}
+
+#rematch-primary-line {
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(220, 245, 255, 0.85);
+    line-height: 1.4;
+}
+
+#rematch-secondary-line {
+    font-size: 15px;
+    font-weight: 400;
+    color: rgba(220, 245, 255, 0.65);
+    line-height: 1.4;
+}
+
+.play-again-text{
+    color: #6FD3E3;
+    font-weight: 600;
 }
 
 .inactive {

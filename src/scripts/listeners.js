@@ -343,6 +343,7 @@ const listeners = () => {
 
                         if (conn.peer !== peerId) {
                             document.getElementById('connection-closed-dialog').showModal();
+                            document.getElementById('connection-closed-dialog').classList.add('dialog-enter');
                         }
                     });
 
@@ -360,6 +361,7 @@ const listeners = () => {
 
     document.getElementById('ok-button').addEventListener('click', () => {
         document.getElementById('connection-closed-dialog').close();
+        document.getElementById('connection-closed-dialog').classList.remove('dialog-enter');
     });
 
     document.getElementById('generate-ships-placement-btn').addEventListener('click', () => {

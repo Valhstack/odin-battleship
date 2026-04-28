@@ -62,7 +62,8 @@
                     <div id="is-player-ready-dialog" class="is-player-ready inactive">
                         <div id="is-player-ready-wrapper" class="is-player-ready-wrapper waiting">
                             <h3 id="is-ready-title">ARE YOU READY?</h3>
-                            <p id="is-ready-subtext" class="is-ready-subtext">The game will begin once both players are ready</p>
+                            <p id="is-ready-subtext" class="is-ready-subtext">The game will begin once both players are
+                                ready</p>
                             <button id="is-ready-button">READY</button>
                         </div>
                     </div>
@@ -74,7 +75,8 @@
                     <h4 id="result" class="result"></h4>
                     <p id="result-subtext" class="result-subtext"></p>
                     <div id="rematch-suggested-wrapper" class="inactive">
-                        <p>Your friend suggested rematch - to accept click on the "Play Again" button below</p>
+                        <p id='rematch-primary-line'>Your opponent requested a rematch!</p>
+                        <p id="rematch-secondary-line">Click <span class="play-again-text">"Play Again"</span> to accept</p>
                     </div>
                     <div class="announcement-buttons-wrapper">
                         <button id="play-again-btn">PLAY AGAIN</button>
@@ -127,10 +129,10 @@
                 </div>
             </dialog>
 
-            <dialog id="connection-closed-dialog">
-                <div id="connection-closed-wrapper">
-                    <p>Signal lost — opponent disconnected. Redirecting to home screen...</p>
-                    <button id="ok-button">Ok</button>
+            <dialog id="connection-closed-dialog" class="dialog">
+                <div id="connection-closed-wrapper" class="connection-closed-wrapper">
+                    <p id="signal-lost-text">Signal lost — opponent disconnected. Redirecting to home screen...</p>
+                    <button id="ok-button">OK</button>
                 </div>
             </dialog>
         </div>
