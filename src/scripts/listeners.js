@@ -225,12 +225,18 @@ const listeners = () => {
                     document.getElementById('is-ready-button').addEventListener('click', (e) => {
                         userReady = true;
                         document.getElementById('is-ready-button').classList.add('inactive');
-                        document.getElementById('is-ready-text').textContent = 'Waiting for your oponent';
+                        document.getElementById('is-ready-title').classList.add('inactive');
+                        document.getElementById('is-ready-subtext').classList.add('ready-subtext');
+                        document.getElementById('is-ready-subtext').textContent = 'Waiting for your oponent...';
 
                         if (userReady && enemyReady) {
                             document.getElementById('is-player-ready-dialog').classList.add('inactive');
                             document.getElementById('is-ready-button').classList.remove('inactive');
-                            document.getElementById('is-ready-text').textContent = 'Are you ready?';
+                            document.getElementById('is-ready-title').classList.remove('inactive');
+                            document.getElementById('is-ready-subtext').classList.remove('ready-subtext');
+
+                            document.getElementById('is-ready-title').textContent = 'ARE YOU READY?';
+                            document.getElementById('is-ready-subtext').textContent = 'The game will begin once both players are ready';
                         }
 
                         conn.send({
@@ -257,7 +263,11 @@ const listeners = () => {
                             if (userReady && enemyReady) {
                                 document.getElementById('is-player-ready-dialog').classList.add('inactive');
                                 document.getElementById('is-ready-button').classList.remove('inactive');
-                                document.getElementById('is-ready-text').textContent = 'Are you ready?';
+                                document.getElementById('is-ready-title').classList.remove('inactive');
+                                document.getElementById('is-ready-subtext').classList.remove('ready-subtext');
+
+                                document.getElementById('is-ready-title').textContent = 'ARE YOU READY?';
+                                document.getElementById('is-ready-subtext').textContent = 'The game will begin once both players are ready';
                             }
                         }
 

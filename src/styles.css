@@ -77,6 +77,27 @@
     }
 }
 
+@keyframes waitingFade {
+    0% {
+        opacity: 0.8;
+        scale: 1;
+    }
+
+    50% {
+        opacity: 1.6;
+        scale: 1.1;
+    }
+
+    100% {
+        opacity: 0.8;
+        scale: 1;
+    }
+}
+
+.waiting {
+    animation: waitingFade 1.8s ease-in-out infinite;
+}
+
 p,
 h1,
 h3,
@@ -658,8 +679,9 @@ input:hover {
     position: absolute;
     inset: 0;
 
-    background: rgba(0, 0, 0, 0.3);
-
+    background: rgba(5, 20, 25, 0.4);
+    backdrop-filter: blur(3px);
+    border-radius: inherit;
     pointer-events: auto;
 
     display: flex;
@@ -668,6 +690,66 @@ input:hover {
     justify-content: center;
 
     top: 10%;
+}
+
+.is-player-ready-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    padding: 24px 26px;
+
+    width: 280px;
+
+    background-color: rgba(18, 52, 64, 0.96);
+    border: 1px solid rgba(120, 200, 220, 0.22);
+    border-radius: 10px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.35);
+}
+
+.is-player-ready-wrapper:hover{
+    animation-play-state: paused;
+}
+
+#is-ready-title {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #6FD3E3;
+    text-align: center;
+}
+
+.is-ready-subtext {
+    font-size: 13px;
+    color: rgba(200, 230, 240, 0.7);
+    line-height: 1.4;
+    text-align: center;
+}
+
+.ready-subtext {
+    font-size: 14px;
+    color: rgba(220, 245, 255, 0.85);
+}
+
+#is-ready-button {
+    margin-top: 4px;
+    height: 38px;
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: 600;
+
+    background-color: #4FA3B8;
+    color: #FFFFFF;
+
+    border: none;
+    border-radius: 8px;
+}
+
+#is-ready-button:hover {
+    background-color: #569FB2;
+    box-shadow: 0 3px 10px rgba(80, 180, 200, 0.18);
 }
 
 #connection-form-dialog {
