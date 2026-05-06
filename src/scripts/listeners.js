@@ -230,6 +230,8 @@ const listeners = () => {
                         document.getElementById('is-ready-subtext').textContent = 'Waiting for your oponent...';
 
                         if (userReady && enemyReady) {
+                            document.getElementById('player-board-buttons-wrapper').classList.add('inactive');
+
                             document.getElementById('is-player-ready-dialog').classList.add('inactive');
                             document.getElementById('is-ready-button').classList.remove('inactive');
                             document.getElementById('is-ready-title').classList.remove('inactive');
@@ -261,6 +263,8 @@ const listeners = () => {
                             enemyReady = data.isReady;
 
                             if (userReady && enemyReady) {
+                                document.getElementById('player-board-buttons-wrapper').classList.add('inactive');
+
                                 document.getElementById('is-player-ready-dialog').classList.add('inactive');
                                 document.getElementById('is-ready-button').classList.remove('inactive');
                                 document.getElementById('is-ready-title').classList.remove('inactive');
@@ -424,8 +428,9 @@ const listeners = () => {
 
         userReady = false;
         enemyReady = false;
+        document.getElementById('player-board-buttons-wrapper').classList.remove('inactive');
 
-        if (document.getElementById('rematch-suggested-wrapper').classList.contains('inactive')) {
+        if (document.getElementById('rematch-suggested-wrapper').classList.contains('inactive') && game.getMode() === 'vsFriend') {
             connection.send({
                 type: 'new game',
                 isGameSuggested: true

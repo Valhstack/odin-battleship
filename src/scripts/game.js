@@ -60,6 +60,10 @@ const game = (function () {
     }
 
     const move = async (row, col) => {
+        if (!document.getElementById('player-board-buttons-wrapper').classList.contains('inactive')) {
+            document.getElementById('player-board-buttons-wrapper').classList.add('inactive');
+        }
+        
         const enemyBoardBefore = enemyPlayer.board.getBoard().map(row => [...row]);
 
         try {
