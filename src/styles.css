@@ -130,10 +130,16 @@ body {
     display: flex;
     flex-direction: column;
 
+    text-align: center;
+}
+
+main {
+    display: flex;
+
+    flex: 1;
+
     align-items: center;
     justify-content: center;
-
-    text-align: center;
 }
 
 .start-screen {
@@ -1043,9 +1049,18 @@ input:hover {
     line-height: 1.4;
 }
 
-.play-again-text{
+.play-again-text {
     color: #6FD3E3;
     font-weight: 600;
+}
+
+footer {
+    padding: 24px 0;
+
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    color: rgba(255, 255, 255, 0.65);
 }
 
 .inactive {
